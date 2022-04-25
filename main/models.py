@@ -6,19 +6,25 @@ from passlib.hash import pbkdf2_sha256
 # Create your models here.
 
 # noinspection DuplicatedCode
-class Technician(models.Model):
+class Admin(models.Model):
     name = models.CharField(max_length=255, blank=True, default="null")
-    user_name = models.CharField(max_length=255, blank=False, unique=True)
+    username = models.CharField(max_length=255, blank=False, unique=True)
     password = models.TextField(blank=False)
     email = models.CharField(max_length=255, blank=False)
+
+    def get_admin_by_email(x):
+        try:
+            return Admin.objects.get(email=x)
+        except:
+            return False
 
     def verify_pass(self, encrypted):
         return pbkdf2_sha256.verify(encrypted, self.password)
 
 
-class Admin(models.Model):
+class Technician(models.Model):
     name = models.CharField(max_length=255, blank=True, default="null")
-    username = models.CharField(max_length=255, blank=False, unique=True)
+    user_name = models.CharField(max_length=255, blank=False, unique=True)
     password = models.TextField(blank=False)
     email = models.CharField(max_length=255, blank=False)
 
