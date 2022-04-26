@@ -57,6 +57,9 @@ class CustomAuthController extends Controller
     }
 
     public function admin_logout(){
-
+        if(session()->has('loginID')){
+            session()->pull('loginID');
+            return redirect('admin/');
+        }
     }
 }
