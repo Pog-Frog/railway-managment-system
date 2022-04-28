@@ -94,13 +94,47 @@
                             </a>
                         </li>
                     </ul>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Management tools</span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="?insert_train">
+                                <span data-feather="file-text"></span>
+                                Add Trains
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                View Trains
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Search Trains
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?insert_train_type">
+                                <span data-feather="file-text"></span>
+                                Insert new Train type
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
     </div>
 </head>
 <body>
-
+@if(isset($_GET['insert_train']))
+    @include("admin.insert_train");
+@endif
+@if(isset($_GET['insert_train_type']))
+    @include("admin.insert_train_type");
+@endif
 
 
 </body>

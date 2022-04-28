@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Train;
+use App\Train_type;
 use Illuminate\Http\Request;
 use App\Admin;
 use Hash;
@@ -44,7 +46,7 @@ class CustomAuthController extends Controller
             return back()->with('success','Admin Registered');
         }
         else{
-            return back()->with('fail', 'sim ting wond');
+            return back()->with('fail', 'Something went wrong');
         }
     }
 
@@ -61,5 +63,54 @@ class CustomAuthController extends Controller
             session()->pull('loginID');
             return redirect('admin/');
         }
+    }
+
+    public function employees_index(){
+        $data = Admin::where('id','=',session()->get("loginID"))->first();
+        return view("admin/employees_management_index", compact('data'));
+    }
+
+    public function trains_index(){
+        $data = Admin::where('id','=',session()->get("loginID"))->first();
+        return view("admin/trains_management_index", compact('data'));
+    }
+
+    public function insert_train(Request $request){
+        $request->validate([
+            'number' => 'required',
+            'type' => 'required',
+            'no_of_cars' => 'required'
+        ]);
+        $train= new Train();
+        $train->number= $request->number;
+        $train->no_of_cars= $request->no_of_cars;
+        $train->type= $request->type;
+        $train->status= $request->status;
+        $result = $train->save();
+        if($result){
+            return back()->with('success','Train Saved');
+        }
+        else{
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function insert_train_type(Request $request){
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $train_type= new Train_type();
+        $train_type->name= $request->name;
+        $result = $train_type->save();
+        if($result){
+            return back()->with('success','Train Saved');
+        }
+        else{
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function insert_train_type_index(){
+        return view('admin/insert_train_type');
     }
 }
