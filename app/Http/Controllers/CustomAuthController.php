@@ -103,7 +103,7 @@ class CustomAuthController extends Controller
         $train_type->name= $request->name;
         $result = $train_type->save();
         if($result){
-            return back()->with('success','Train Saved');
+            return back()->with('success','Train Type Saved');
         }
         else{
             return back()->with('fail', 'Something went wrong');
