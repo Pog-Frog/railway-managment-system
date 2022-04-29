@@ -105,7 +105,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="?view_all_trains">
                                 <span data-feather="file-text"></span>
                                 View Trains
                             </a>
@@ -122,6 +122,12 @@
                                 Insert new Train type
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?view_train_types">
+                                <span data-feather="file-text"></span>
+                                View Train types
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -129,14 +135,19 @@
     </div>
 </head>
 <body>
+<?php echo csrf_field(); ?>
 <?php if(isset($_GET['insert_train'])): ?>
-    <?php echo $__env->make("admin.insert_train", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>;
+    <?php echo $__env->make("admin.insert_train_index", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php endif; ?>
 <?php if(isset($_GET['insert_train_type'])): ?>
-    <?php echo $__env->make("admin.insert_train_type", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>;
+    <?php echo $__env->make("admin.insert_train_type", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php endif; ?>
-
-
+<?php if(isset($_GET['view_all_trains'])): ?>
+    <?php echo $__env->make("admin.view_trains", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php endif; ?>
+<?php if(isset($_GET['view_train_types'])): ?>
+    <?php echo $__env->make("admin.view_train_types", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php endif; ?>
 </body>
 <script src="<?php echo e(url('/scripts/bootstrap.bundle.min.js')); ?>"></script>
 

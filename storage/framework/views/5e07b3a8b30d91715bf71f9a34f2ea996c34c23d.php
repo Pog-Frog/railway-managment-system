@@ -1,12 +1,6 @@
-<?php echo $__env->make("admin.db", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php
-    $con = mysqli_connect("localhost","root","","app");
-    $q = "select * from train_types";
-    $temp_q = mysqli_query($con, $q);
-    $train_types = [];
-    while($train_type = mysqli_fetch_object($temp_q)){
-        $train_types[] = $train_type;
-    }
+    use Illuminate\Support\Facades\DB;
+    $train_types = DB::table('train_types')->get();
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -92,4 +86,4 @@ unset($__errorArgs, $__bag); ?></span>
         </form>
     </div>
 </main>
-<?php /**PATH D:\Programming Projects\Repositories\temp\railway-managment-system\resources\views/admin/insert_train.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Programming Projects\Repositories\temp\railway-managment-system\resources\views/admin/insert_train_index.blade.php ENDPATH**/ ?>
