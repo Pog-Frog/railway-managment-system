@@ -68,12 +68,12 @@
 
         <div class="form-floating">
             <input type="name" class="form-control" placeholder="Female/Male"  name="gendre">
-            <label for="floatingInput">Gendre</label>
-            <span class="text-danger">@error('gendre') {{$message}} @enderror</span>
+            <label for="floatingInput">Gender</label>
+            <span class="text-danger">@error('gender') {{$message}} @enderror</span>
         </div>
 
-       
-     
+
+
         <div class="form-floating">
             <input type="password" class="form-control" placeholder="Password" name="password">
             <label for="floatingPassword">Password</label>

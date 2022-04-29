@@ -98,7 +98,7 @@
 									<li><a href="#">Cancel A Trip</a></li>
 									<li><a href="#">Reschudle A Trip</a></li>
 									
-								</ul>
+								</ul>1`
 							</li>
                             <li><a href="{{route('logout')}}">Logout</a></li>
                             
@@ -115,10 +115,10 @@
 
 		<!-- end:header-top -->
 	
-		<div class="fh5co-hero" style="background-image: url(pics/user/road_1.jpg);">
+		<div class="fh5co-hero" style="background-image: url(pics/user/railway_1.jpg);">
 
 			<div class="fh5co-overlay"></div>
-			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: {{ URL::asset('pics/user/road_1.jpg') }}">
+			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: {{ URL::asset('pics/user/railway_1.jpg') }}">
 				<div class="desc">
 					<div class="container">
 						<div class="row">

@@ -27,9 +27,9 @@ Route::post("admin/trains/insert_train", [CustomAuthController::class, 'insert_t
 Route::post("admin/trains/insert_train_type", [CustomAuthController::class, 'insert_train_type'])->name('insert_train_type')->middleware('isloggedin');
 
 ##USER
-Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout');
-Route::get("user/", [UserController::class, 'user_login_index'])->name('user_login_index')->middleware('alreadyloggedin');
-Route::post("user/login", [UserController::class, 'user_login'])->name('login_user')->middleware('alreadyloggedin');
+Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout')->middleware('isloggedin_user');
+Route::get("user/", [UserController::class, 'user_login_index'])->name('user_login_index')->middleware('alreadyloggedin_user');
+Route::post("user/login", [UserController::class, 'user_login'])->name('login_user')->middleware('alreadyloggedin_user');
 Route::get("user/register_user", [UserController::class, 'user_register_index'])->name('user_register_index');
-Route::post("user/register", [UserController::class, 'user_register'])->name('register_user');
+Route::post("user/register", [UserController::class, 'user_register'])->name('register_user')->middleware('alreadyloggedin_user');
 Route::get("/", [UserController::class, 'user_index']);

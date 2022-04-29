@@ -21,7 +21,7 @@ class CustomAuthController extends Controller
         ]);
         $user = Admin::where('email','=',$request->email)->first();
         if($user && Hash::check($request->password, $user->password)){
-            $request->session()->put('loginID', $user->id);
+            $request->session()->put('adminID', $user->id);
             return redirect('admin/dashboard');
         }else{
             return back()->with('fail', 'Email or Password is incorrect');
@@ -52,26 +52,26 @@ class CustomAuthController extends Controller
 
     public function admin_index(){
         $data = array();
-        if(session()->has('loginID')){
-            $data = Admin::where('id','=',session()->get("loginID"))->first();
+        if(session()->has('adminID')){
+            $data = Admin::where('id','=',session()->get("adminID"))->first();
         }
         return view('admin/dashboard', compact('data'));
     }
 
     public function admin_logout(){
-        if(session()->has('loginID')){
-            session()->pull('loginID');
+        if(session()->has('adminID')){
+            session()->pull('adminID');
             return redirect('admin/');
         }
     }
 
     public function employees_index(){
-        $data = Admin::where('id','=',session()->get("loginID"))->first();
+        $data = Admin::where('id','=',session()->get("adminID"))->first();
         return view("admin/employees_management_index", compact('data'));
     }
 
     public function trains_index(){
-        $data = Admin::where('id','=',session()->get("loginID"))->first();
+        $data = Admin::where('id','=',session()->get("adminID"))->first();
         return view("admin/trains_management_index", compact('data'));
     }
 

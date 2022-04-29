@@ -51,7 +51,7 @@ class UserController extends Controller
             return back()->with('success','User Registered');
         }
         else{
-            return back()->with('fail', 'sim ting wond');
+            return back()->with('fail', 'Something went wrong');
         }
     }
 
@@ -71,5 +71,5 @@ class UserController extends Controller
         }
     }
 
-    
+
 }

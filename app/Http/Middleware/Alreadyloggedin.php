@@ -15,7 +15,7 @@ class Alreadyloggedin
      */
     public function handle($request, Closure $next)
     {
-        if(session()->has('loginID')){
+        if(session()->has('adminID')){
             return redirect('admin/dashboard');
         }
         return $next($request);
