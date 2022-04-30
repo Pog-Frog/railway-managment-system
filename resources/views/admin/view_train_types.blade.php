@@ -41,7 +41,7 @@ $trains_types = DB::table('train_types')->get();
                         <form method="post" action="{{route('delete_train_type', ['type_id'=>($train_type->id)])}}">
                             @csrf
                             <div class="col text-center">
-                                <button class="w-25 btn btn-primary btn-sm" type="submit">Delete Train</button>
+                                <button class="w-25 btn btn-primary btn-sm" type="submit">Delete</button>
                             </div>
                         </form>
                     </td>

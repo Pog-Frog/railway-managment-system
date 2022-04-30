@@ -29,6 +29,7 @@ Route::get("admin/trains/edit_train_index/{train_id}", [CustomAuthController::cl
 Route::post("admin/trains/edit_train/{train_id}", [CustomAuthController::class, 'edit_train'])->name('edit_train')->middleware('isloggedin');
 Route::post("admin/trains/edit_train/delete_train/{train_id}", [CustomAuthController::class, 'delete_train'])->name('delete_train')->middleware('isloggedin');
 Route::post("admin/trains/delete_train_type", [CustomAuthController::class, 'delete_train_type'])->name('delete_train_type')->middleware('isloggedin');
+Route::get("admin/stations", [CustomAuthController::class, 'stations_index'])->name('stations_index')->middleware('isloggedin');
 
 ##USER
 Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout')->middleware('isloggedin_user');

@@ -99,33 +99,21 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="?insert_train">
+                            <a class="nav-link" href="?insert_station">
                                 <span data-feather="file-text"></span>
-                                Add Trains
+                                Add Stations
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?view_all_trains">
+                            <a class="nav-link" href="?view_all_stations">
                                 <span data-feather="file-text"></span>
-                                View Trains
+                                View Stations
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="?search_stations">
                                 <span data-feather="file-text"></span>
-                                Search Trains
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?insert_train_type">
-                                <span data-feather="file-text"></span>
-                                Insert new Train type
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?view_train_types">
-                                <span data-feather="file-text"></span>
-                                View Train types
+                                Search Stations
                             </a>
                         </li>
                     </ul>
@@ -136,17 +124,8 @@
 </head>
 <body>
 @csrf
-@if(isset($_GET['insert_train']))
-    @include("admin.insert_train_index")
-@endif
-@if(isset($_GET['insert_train_type']))
-    @include("admin.insert_train_type")
-@endif
-@if(isset($_GET['view_all_trains']))
-    @include("admin.view_trains")
-@endif
-@if(isset($_GET['view_train_types']))
-    @include("admin.view_train_types")
+@if(isset($_GET['?insert_station']))
+    @include("admin.insert_station_index")
 @endif
 
 </body>

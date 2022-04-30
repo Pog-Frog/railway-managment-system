@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">
+                            <a class="nav-link" aria-current="page" href="stations">
                                 <span data-feather="airplay"></span>
                                 Station management
                             </a>
@@ -148,6 +148,7 @@
 <?php if(isset($_GET['view_train_types'])): ?>
     <?php echo $__env->make("admin.view_train_types", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php endif; ?>
+
 </body>
 <script src="<?php echo e(url('/scripts/bootstrap.bundle.min.js')); ?>"></script>
 

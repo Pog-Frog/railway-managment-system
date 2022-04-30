@@ -170,4 +170,10 @@ class CustomAuthController extends Controller
         }
         return redirect('admin/trains?view_train_types')->with('fail', 'Something went wrong');
     }
+
+    public function stations_index()
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/stations_managment_index", compact('data'));
+    }
 }
