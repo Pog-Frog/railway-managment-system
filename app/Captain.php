@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Train_type extends Model
+class Captain extends Model
 {
     //
     public function trains()
     {
-        return $this->hasMany(Train::class);
+        return $this->hasOne(Train::class);
 
     }
 }
