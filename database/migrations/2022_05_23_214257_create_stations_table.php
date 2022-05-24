@@ -15,6 +15,7 @@ class CreateStationsTable extends Migration
     {
         Schema::create('stations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('city');
             $table->unsignedBigInteger('admin')->nullable();
             $table->foreign('admin')->references('id')->on('admins')->onDelete('set null');
