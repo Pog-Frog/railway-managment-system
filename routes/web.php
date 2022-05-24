@@ -38,3 +38,10 @@ Route::post("user/login", [UserController::class, 'user_login'])->name('login_us
 Route::get("user/register_user", [UserController::class, 'user_register_index'])->name('user_register_index');
 Route::post("user/register", [UserController::class, 'user_register'])->name('register_user')->middleware('alreadyloggedin_user');
 Route::get("/", [UserController::class, 'user_index']);
+
+##employee
+Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout')->middleware('isloggedin_employee');
+Route::get("employee/", [EmployeeController::class, 'employee_login_index'])->name('employee_login_index')->middleware('alreadyloggedin_employee');
+Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('login_employee')->middleware('alreadyloggedin_employee');
+Route::get("/", [EmployeeController::class, 'employee_index']);
+
