@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCaptinReportsTable extends Migration
+class CreateCaptainReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCaptinReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('captin_reports', function (Blueprint $table) {
+        Schema::create('captain_reports', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date');
-            $table->unsignedBigInteger('captin')->nullable();
-            $table->foreign('captin')->references('id')->on('captins')->onDelete('set null');
+            $table->unsignedBigInteger('captain')->nullable();
+            $table->foreign('captain')->references('id')->on('captains')->onDelete('set null');
             $table->unsignedBigInteger('train')->nullable();
             $table->foreign('train')->references('id')->on('trains')->onDelete('set null');
             $table->unsignedBigInteger('report')->nullable();

@@ -15,8 +15,8 @@ class CreateAssignedTrainsForLinesTable extends Migration
     {
         Schema::create('assigned__trains_for__lines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('captin')->nullable();
-            $table->foreign('captin')->references('id')->on('captins')->onDelete('set null');
+            $table->unsignedBigInteger('captain')->nullable();
+            $table->foreign('captain')->references('id')->on('captains')->onDelete('set null');
             $table->unsignedBigInteger('line')->nullable();
             $table->foreign('line')->references('id')->on('lines')->onDelete('set null');
             $table->unsignedBigInteger('train')->nullable();
