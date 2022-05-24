@@ -13,12 +13,12 @@
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FREEHTML5.CO" />
 
-  <!-- 
+  <!--
 	//////////////////////////////////////////////////////
 
-	FREE HTML5 TEMPLATE 
+	FREE HTML5 TEMPLATE
 	DESIGNED & DEVELOPED by FREEHTML5.CO
-		
+
 	Website: 		http://freehtml5.co/
 	Email: 			info@freehtml5.co
 	Twitter: 		http://twitter.com/fh5co
@@ -42,7 +42,7 @@
 	<link rel="shortcut icon" href="favicon.ico">
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
-	
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -58,7 +58,7 @@
 	<!-- CS Select -->
 	<link rel="stylesheet" href="css/cs-select.css">
 	<link rel="stylesheet" href="css/cs-skin-border.css">
-	
+
 	<link rel="stylesheet" href="css/style.css">
 
 
@@ -83,27 +83,27 @@
 					<nav id="fh5co-menu-wrap" role="navigation">
 						<ul class="sf-menu" id="fh5co-primary-menu">
 							<li class="active"><a href="index.html">Home</a></li>
-							
-							
-						
+
+
+
 							<li><a href="#">Today`s Trips</a></li>
 
                             @if(session()->has('loginID'))
 
-                            
+
                             <li>
 								<a href="vacation.html" class="fh5co-sub-ddown">Manage Your Trips</a>
 								<ul class="fh5co-sub-menu">
 									<li><a href="#">View Booked Trips</a></li>
 									<li><a href="#">Cancel A Trip</a></li>
 									<li><a href="#">Reschudle A Trip</a></li>
-									
+
 								</ul>1`
 							</li>
                             <li><a href="{{route('logout')}}">Logout</a></li>
-                            
+
                             @else
-                          
+
 							<li><a href="{{route('user_login_index')}}">Login</a></li>
 							<li><a href="{{route('user_register_index')}}">Register</a></li>
                             @endif
@@ -114,7 +114,7 @@
 		</header>
 
 		<!-- end:header-top -->
-	
+
 		<div class="fh5co-hero" style="background-image: url(pics/user/railway_1.jpg);">
 
 			<div class="fh5co-overlay"></div>
@@ -130,7 +130,7 @@
 								      <li role="presentation" class="active">
 								      	<a href="#flights" aria-controls="flights" role="tab" data-toggle="tab">Trips</a>
 								      </li>
-								     
+
 								   </ul>
 
 								   <!-- Tab panes -->
@@ -155,7 +155,7 @@
 													<input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy"/>
 												</div>
 											</div>
-											
+
 											<div class="col-sm-12 mt">
 												<section>
 													<label for="class">Model:</label>
@@ -197,11 +197,11 @@
 										</div>
 									 </div>
 
-									 
+
 
 									 <div role="tabpanel" class="tab-pane" id="packages">
 									 	<div class="row">
-											
+
 											<div class="col-sm-12 mt">
 												<section>
 													<label for="class">Rooms:</label>
@@ -260,7 +260,7 @@
 			</div>
 
 		</div>
-		
+
 		<div id="fh5co-tours" class="fh5co-section-gray">
 			<div class="container">
 				<div class="row">
@@ -398,7 +398,7 @@
 			</div>
 		</div>
 
-		
+
 		<div id="fh5co-destination">
 			<div class="tour-fluid">
 				<div class="row">
@@ -483,7 +483,7 @@
 									</div>
 								</a>
 							</li>
-						</ul>		
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -560,7 +560,7 @@
 			</div>
 		</footer>
 
-	
+
 
 	</div>
 	<!-- END fh5co-page -->
@@ -571,32 +571,19 @@
 	<!-- jQuery -->
 
 
-	<script src="js/jquery.min.js"></script>
-	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<script src="js/sticky.js"></script>
-
-	<!-- Stellar -->
-	<script src="js/jquery.stellar.min.js"></script>
-	<!-- Superfish -->
-	<script src="js/hoverIntent.js"></script>
-	<script src="js/superfish.js"></script>
-	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
-	<!-- Date Picker -->
-	<script src="js/bootstrap-datepicker.min.js"></script>
-	<!-- CS Select -->
-	<script src="js/classie.js"></script>
-	<script src="js/selectFx.js"></script>
-	
-	<!-- Main JS -->
-	<script src="js/main.js"></script>
-
+	<script src="{{ url('/js/jquery.min.js') }}"></script>
+        <script src="{{ url('/js/jquery.easing.1.3.js') }}"></script>
+        <script src="{{ url('/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url('/js/jquery.waypoints.min.js') }}"></script>
+        <script src="{{ url('/js/sticky.js') }}"></script>
+        <script src="{{ url('/js/jquery.stellar.min.js') }}"></script>
+        <script src="{{ url('/js/hoverIntent.js') }}"></script>
+        <script src="{{ url('/js/superfish.js') }}"></script>
+        <script src="{{ url('/js/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ url('/js/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ url('/js/classie.j') }}"></script>
+        <script src="{{ url('/js/selectFx.js') }}"></script>
+        <script src="{{ url('/js/main.js') }}"></script>
 	</body>
 </html>
 

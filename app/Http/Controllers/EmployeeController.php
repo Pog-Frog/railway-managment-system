@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employee;
 use Hash;
-use MongoDB\Driver\Session;
 
 
 class EmployeeController extends Controller
@@ -20,10 +19,10 @@ class EmployeeController extends Controller
             'email' => 'required|email',
             'password' => 'required|max:12|min:8'
         ]);
-        $employee = employee::where('email','=',$request->email)->first();
+        $employee = Employee::where('email','=',$request->email)->first();
         if($employee && Hash::check($request->password, $employee->password)){
             $request->session()->put('employeeloginID', $employee->id);
-            return redirect("/");
+            return redirect("employee/home");
         }else{
             return back()->with('fail', 'Email or Password is incorrect');
         }
@@ -32,15 +31,15 @@ class EmployeeController extends Controller
     public function employee_index(){
         $data = array();
         if(session()->has('employeeloginID')){
-            $data = User::where('id','=',session()->get("employeeloginID"))->first();
+            $data = Employee::where('id','=',session()->get("employeeloginID"))->first();
         }
-        return view("employee/home");
+        return view("employee/home", compact('data'));
     }
 
     public function employee_logout(){
         if(session()->has('employeeloginID')){
             session()->pull('employeeloginID');
-            return redirect("/");
+            return redirect("employee/");
         }
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class alreadyloggedin_emploee
+class Alreadyloggedin_employee
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,8 @@ class alreadyloggedin_emploee
      */
     public function handle($request, Closure $next)
     {
-        
         if(session()->has('employeeloginID')){
-            return redirect('/');
+            return redirect('employee/home');
         }
         return $next($request);
     }
