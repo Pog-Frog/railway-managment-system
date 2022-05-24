@@ -22,7 +22,7 @@ class EmployeeController extends Controller
         ]);
         $employee = employee::where('email','=',$request->email)->first();
         if($employee && Hash::check($request->password, $employee->password)){
-            $request->session()->put('loginID', $employee->id);
+            $request->session()->put('employeeloginID', $employee->id);
             return redirect("/");
         }else{
             return back()->with('fail', 'Email or Password is incorrect');
@@ -31,15 +31,15 @@ class EmployeeController extends Controller
 
     public function employee_index(){
         $data = array();
-        if(session()->has('loginID')){
-            $data = User::where('id','=',session()->get("loginID"))->first();
+        if(session()->has('employeeloginID')){
+            $data = User::where('id','=',session()->get("employeeloginID"))->first();
         }
         return view("employee/home");
     }
 
     public function employee_logout(){
-        if(session()->has('loginID')){
-            session()->pull('loginID');
+        if(session()->has('employeeloginID')){
+            session()->pull('employeeloginID');
             return redirect("/");
         }
     }

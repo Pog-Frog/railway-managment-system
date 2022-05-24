@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController; ## Admin Controller
 use App\Http\Controllers\UserController; ## Users Controller
+use App\Http\Controllers\EmployeeController; ##employee Controller
 
 /*
 |--------------------------------------------------------------------------
