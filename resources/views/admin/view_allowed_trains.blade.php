@@ -1,10 +1,3 @@
-<?php
-
-use App\Train;
-
-$trains = Train::all();
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -106,15 +99,15 @@ $trains = Train::all();
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?insert_train")}}">
+                            <a class="nav-link" href="{{url("admin/stations?insert_station")}}">
                                 <span data-feather="file-text"></span>
-                                Add Trains
+                                Add Stations
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route("view_trains")}}">
+                            <a class="nav-link" href="{{route("view_stations")}}">
                                 <span data-feather="file-text"></span>
-                                View Trains
+                                View Stations
                             </a>
                         </li>
                     </ul>
@@ -125,10 +118,96 @@ $trains = Train::all();
 </head>
 <body>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <form method="get" action="{{route("search_trains")}}">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h3">Allowed Trains</h1>
+    </div>
+    <div style="overflow-x: auto;" class="p-3 my-3 border rounded">
+        @csrf
+        @if(Session::has('remove_success'))
+            <div class="alert-success">{{Session::get('remove_success')}}
+
+            </div>
+        @else
+            <div class="alert-danger">{{Session::get('remove_fail')}}
+
+            </div>
+        @endif
+        <table id="task-table" class="table table-r">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: center">ID</th>
+                <th scope="col" style="text-align: center">number/name</th>
+                <th scope="col" style="text-align: center">model</th>
+                <th scope="col" style="text-align: center">number of cars</th>
+                <th scope="col" style="text-align: center">admin</th>
+                <th scope="col" style="text-align: center">status</th>
+                <th scope="col" style="text-align: center">remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($can_stop as $x)
+                <tr>
+                    <td style="text-align: center">
+                        <input type="type"
+                               style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                               name="train_id" value="{{$x->trains->id}}" disabled>
+                    </td>
+
+                    <td style="text-align: center">
+                        <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                            <a href="{{route('edit_train_index', ['train_id'=>($x->trains->id)])}}">{{$x->trains->number}}</a>
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                            {{$x->trains->train_model}}
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                            {{$x->trains->no_of_cars}}
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                            @if(is_null($x->trains->admins))
+                                {{"not assigned"}}
+                            @else
+                                {{$x->trains->admins->name}}
+                            @endif
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                            {{$x->trains->status}}
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                            <form method="POST"
+                                  action="{{route('remove_allowed_train', ['station_id'=>($station->id), 'train_id' =>($x->trains->id)])}}">
+                                @csrf
+                                <div class="col text-center">
+                                    <button class="btn-sm  btn-danger" type="submit">REMOVE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h3">Not Allowed Trains</h1>
+    </div>
+    <form method="get" action="{{route("search_not_allowed_trains", ['station_id'=>($station->id)])}}">
         @csrf
         <div class="input-group p-2">
-            <input type="search" class="form-control rounded" placeholder="Search by number, model, number of cars, ID, status, admin" aria-label="Search"
+            <input type="search" class="form-control rounded"
+                   placeholder="Search by number, model, number of cars, ID, status, admin" aria-label="Search"
                    name="search_query" aria-describedby="search-addon"/>
             <button type="submit" class="btn btn-outline-primary">search</button>
         </div>
@@ -153,8 +232,7 @@ $trains = Train::all();
                 <th scope="col" style="text-align: center">number of cars</th>
                 <th scope="col" style="text-align: center">admin</th>
                 <th scope="col" style="text-align: center">status</th>
-                <th scope="col" style="text-align: center">updated at</th>
-                <th scope="col" style="text-align: center">edit</th>
+                <th scope="col" style="text-align: center">add</th>
             </tr>
             </thead>
 
@@ -162,13 +240,14 @@ $trains = Train::all();
             @if(isset($result))
                 @foreach($result as $train)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
-
+                        <td style="text-align: center">
+                            <input type="type"
+                                   style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                   name="train_id" value="{{$train->id}}" disabled>
+                        </td>
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->number}}
+                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->number}}</a>
                             </div>
                         </td>
                         <td style="text-align: center">
@@ -197,24 +276,28 @@ $trains = Train::all();
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->updated_at}}
+                                <form method="POST"
+                                      action="{{route('add_allowed_train', ['station_id'=>($station->id), 'train_id' =>($train->id)])}}">
+                                    @csrf
+                                    <div class="col text-center">
+                                        <button class="btn-sm  btn-success" type="submit">ADD</button>
+                                    </div>
+                                </form>
                             </div>
-                        </td>
-                        <td style="text-align: center">
-                            <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach
             @else
-                @foreach($trains as $train)
+                @foreach($cannot_stop as $train)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
-
+                        <td style="text-align: center">
+                            <input type="type"
+                                   style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                   name="train_id" value="{{$train->id}}" disabled>
+                        </td>
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->number}}
+                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->number}}</a>
                             </div>
                         </td>
                         <td style="text-align: center">
@@ -243,11 +326,14 @@ $trains = Train::all();
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->updated_at}}
+                                <form method="POST"
+                                      action="{{route('add_allowed_train', ['station_id'=>($station->id), 'train_id' =>($train->id)])}}">
+                                    @csrf
+                                    <div class="col text-center">
+                                        <button class="btn-sm  btn-success" type="submit">ADD</button>
+                                    </div>
+                                </form>
                             </div>
-                        </td>
-                        <td style="text-align: center">
-                            <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach

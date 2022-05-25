@@ -1,8 +1,8 @@
 <?php
 
-use App\Train;
+use App\Station;
 
-$trains = Train::all();
+$stations = Station::all();
 ?>
 
 <!doctype html>
@@ -106,15 +106,15 @@ $trains = Train::all();
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?insert_train")}}">
+                            <a class="nav-link" href="{{url("admin/stations?insert_station")}}">
                                 <span data-feather="file-text"></span>
-                                Add Trains
+                                Add Stations
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route("view_trains")}}">
+                            <a class="nav-link" href="{{route("view_stations")}}">
                                 <span data-feather="file-text"></span>
-                                View Trains
+                                View Stations
                             </a>
                         </li>
                     </ul>
@@ -125,16 +125,15 @@ $trains = Train::all();
 </head>
 <body>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <form method="get" action="{{route("search_trains")}}">
+    <form method="get" action="{{route("search_stations")}}">
         @csrf
         <div class="input-group p-2">
-            <input type="search" class="form-control rounded" placeholder="Search by number, model, number of cars, ID, status, admin" aria-label="Search"
+            <input type="search" class="form-control rounded" placeholder="Search by name, by city, by admin" aria-label="Search"
                    name="search_query" aria-describedby="search-addon"/>
             <button type="submit" class="btn btn-outline-primary">search</button>
         </div>
     </form>
     <div style="overflow-x: auto;" class="p-3 my-3 border rounded">
-        @csrf
         @if(Session::has('success'))
             <div class="alert-success">{{Session::get('success')}}
 
@@ -148,106 +147,106 @@ $trains = Train::all();
             <thead>
             <tr>
                 <th scope="col" style="text-align: center">ID</th>
-                <th scope="col" style="text-align: center">number/name</th>
-                <th scope="col" style="text-align: center">model</th>
-                <th scope="col" style="text-align: center">number of cars</th>
+                <th scope="col" style="text-align: center">name</th>
+                <th scope="col" style="text-align: center">city</th>
                 <th scope="col" style="text-align: center">admin</th>
-                <th scope="col" style="text-align: center">status</th>
+                <th scope="col" style="text-align: center">created at</th>
                 <th scope="col" style="text-align: center">updated at</th>
+                <th scope="col" style="text-align: center">allowed trains</th>
                 <th scope="col" style="text-align: center">edit</th>
             </tr>
             </thead>
 
             <tbody>
             @if(isset($result))
-                @foreach($result as $train)
+                @foreach($result as $x)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
+                        <td style="text-align: center">
+                            <input type="type"
+                                   style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                   name="train_id" value="{{$x->id}}" disabled>
+                        </td>
 
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->number}}
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->train_model}}
+                                {{$x->name}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->no_of_cars}}
+                                {{$x->city}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                @if(is_null($train->admins))
+                                @if(is_null($x->admins))
                                     {{"not assigned"}}
                                 @else
-                                    {{$train->admins->name}}
+                                    {{$x->admins->name}}
                                 @endif
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->status}}
+                                {{$x->created_at}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->updated_at}}
+                                {{$x->updated_at}}
                             </div>
                         </td>
                         <td style="text-align: center">
-                            <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">Edit</a>
+                            <a href="{{route('view_allowed_trains', ['station_id'=>($x->id)])}}">View</a>
+                        </td>
+                        <td style="text-align: center">
+                            <a href="{{route('edit_station_index', ['station_id'=>($x->id)])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach
             @else
-                @foreach($trains as $train)
+                @foreach($stations as $station)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
+                        <td style="text-align: center">
+                            <input type="type"
+                                   style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                   name="train_id" value="{{$station->id}}" disabled>
+                        </td>
 
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->number}}
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                {{$train->train_model}}
+                                {{$station->name}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->no_of_cars}}
+                                {{$station->city}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                @if(is_null($train->admins))
+                                @if(is_null($station->admins))
                                     {{"not assigned"}}
                                 @else
-                                    {{$train->admins->name}}
+                                    {{$station->admins->name}}
                                 @endif
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->status}}
+                                {{$station->created_at}}
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{$train->updated_at}}
+                                {{$station->updated_at}}
                             </div>
                         </td>
                         <td style="text-align: center">
-                            <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">Edit</a>
+                            <a href="{{route('view_allowed_trains', ['station_id'=>($station->id)])}}">View</a>
+                        </td>
+                        <td style="text-align: center">
+                            <a href="{{route('edit_station_index', ['station_id'=>($station->id)])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach

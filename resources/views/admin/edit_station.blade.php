@@ -107,15 +107,15 @@ $admins = DB::table('admins')->get();
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?insert_train")}}">
+                            <a class="nav-link" href="{{url("admin/stations?insert_station")}}">
                                 <span data-feather="file-text"></span>
-                                Add Trains
+                                Add Station
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route("view_trains")}}">
+                            <a class="nav-link" href="{{route("view_stations")}}">
                                 <span data-feather="file-text"></span>
-                                View Trains
+                                View Stations
                             </a>
                         </li>
                     </ul>
@@ -128,11 +128,11 @@ $admins = DB::table('admins')->get();
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h4">Edit Train</h1>
+        <h1 class="h4">Edit Station</h1>
     </div>
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{route('edit_train', ['train_id'=>($train->id)])}}">
+        <form method="POST" action="{{route('edit_station', ['station_id'=>($station->id)])}}">
             @csrf
             @if(Session::has('success'))
                 <div class="alert-success">{{Session::get('success')}}
@@ -145,26 +145,19 @@ $admins = DB::table('admins')->get();
             @endif
             <div class="row g-3">
                 <div class="col-sm-6">
-                    <label for="number" class="form-label">Train number<span
+                    <label for="name" class="form-label">Station name<span
                             class="text-muted">(Required)</span></label>
-                    <input type="text" class="form-control" id="number" placeholder="" name="number"
-                           value="{{$train->number}}">
-                    <span class="text-danger">@error('number') {{$message}} @enderror</span>
+                    <input type="text" class="form-control" id="name" placeholder="" name="name"
+                           value="{{$station->name}}">
+                    <span class="text-danger">@error('name') {{$message}} @enderror</span>
                 </div>
 
-                <div class="col-sm-5">
-                    <label for="train_model" class="form-label">Train model<span
+                <div class="col-8">
+                    <label for="city" class="form-label">Station city<span
                             class="text-muted">(Required)</span></label>
-                    <input type="text" class="form-control" id="train_model" placeholder="" name="train_model"
-                           value="{{$train->train_model}}">
-                    <span class="text-danger">@error('train_model') {{$message}} @enderror</span>
-                </div>
-
-                <div class="col-sm-3">
-                    <label for="no_of_cars" class="form-label">Number of cars<span class="text-muted">(Required)</span></label>
-                    <input type="text" class="form-control" id="no_of_cars" placeholder="" name="no_of_cars"
-                           value="{{$train->no_of_cars}}">
-                    <span class="text-danger">@error('no_of_cars') {{$message}} @enderror</span>
+                    <input type="text" class="form-control" id="city" placeholder="" name="city"
+                           value="{{$station->city}}">
+                    <span class="text-danger">@error('city') {{$message}} @enderror</span>
                 </div>
 
                 <div class="col-md-8">
@@ -172,7 +165,7 @@ $admins = DB::table('admins')->get();
                     <select class="form-select" id="admin" name="admin">
                         <option value="null">--None--</option>
                         @foreach($admins as $admin)
-                            @if($train->admin == $admin->id)
+                            @if($station->admin == $admin->id)
                                 <option selected value="{{$admin->id}}">{{$admin->name}}</option>
                             @else
                                 <option selected value="{{$admin->id}}">{{$admin->name}}</option>
@@ -182,46 +175,12 @@ $admins = DB::table('admins')->get();
                     <span class="text-danger">@error('admin') {{$message}} @enderror</span>
                 </div>
 
-                <div style="margin-top: 15px;" class="row ">
-                    <label style="margin-left: -10px;" class="form-label">Train status</label>
-                    <div class="form-check col-auto">
-                        @if($train->status == "true")
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" checked
-                                   value="true">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                true
-                            </label>
-                        @else
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1"
-                                   value="true">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                true
-                            </label>
-                        @endif
-                    </div>
-                    <div class="form-check col-auto">
-                        @if($train->status == "true")
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2"
-                                   value="false">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                false
-                            </label>
-                        @else
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2"
-                                   value="false"
-                                   checked>
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                false
-                            </label>
-                        @endif
-                    </div>
-                </div>
                 <button class="w-100 btn btn-outline-primary btn-lg" type="submit">Submit</button>
         </form>
-        <form method="POST" action="{{route('delete_train', ['train_id'=>($train->id)])}}">
+        <form method="POST" action="{{route('delete_station', ['station_id'=>($station->id)])}}">
             @csrf
             <div class="col text-center">
-                <button class="w-25 btn btn-primary btn-danger" type="submit">Delete Train</button>
+                <button class="w-25 btn btn-primary btn-danger" type="submit">Delete Station</button>
             </div>
         </form>
     </div>

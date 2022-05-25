@@ -99,15 +99,15 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?insert_train")}}">
+                            <a class="nav-link" href="?insert_station">
                                 <span data-feather="file-text"></span>
-                                Add Trains
+                                Add Stations
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route("view_trains")}}">
+                            <a class="nav-link" href="{{route("view_stations")}}">
                                 <span data-feather="file-text"></span>
-                                View Trains
+                                View Stations
                             </a>
                         </li>
                     </ul>
@@ -118,10 +118,9 @@
 </head>
 <body>
 @csrf
-@if(isset($_GET['insert_train']))
-    @include("admin.insert_train_index")
+@if(isset($_GET['insert_station']))
+    @include("admin.insert_station_index")
 @endif
-
 </body>
 <script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
