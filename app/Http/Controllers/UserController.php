@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Hash;
-use MongoDB\Driver\Session;
 
 
 class UserController extends Controller

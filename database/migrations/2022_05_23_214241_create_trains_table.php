@@ -15,10 +15,12 @@ class CreateTrainsTable extends Migration
     {
         Schema::create('trains', function (Blueprint $table) {
             $table->id();
+            $table->string('number');
             $table->string('train_model');
             $table->integer('no_of_cars');
             $table->unsignedBigInteger('admin')->nullable();
             $table->foreign('admin')->references('id')->on('admins')->onDelete('set null');
+            $table->string('status')->default("true"); ## opposite -> false , to indicate the status of the train
             $table->timestamps();
         });
     }
