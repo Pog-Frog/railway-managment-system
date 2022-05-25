@@ -36,7 +36,7 @@
            href="#">Welcome {{$data->name}}</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="logout">Sign out</a>
+                <a class="nav-link" href="{{url("admin/logout")}}">Sign out</a>
             </li>
         </ul>
         <button style="margin-right: 80px;" class="navbar-toggler position-absolute d-md-none collapsed" type="button"
@@ -52,31 +52,31 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="trains">
+                            <a class="nav-link" aria-current="page" href="{{url("admin/trains")}}">
                                 <span data-feather="airplay"></span>
                                 Train management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="stations">
+                            <a class="nav-link" aria-current="page" href="">
                                 <span data-feather="airplay"></span>
                                 Station management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">
+                            <a class="nav-link" aria-current="page" href="">
                                 <span data-feather="airplay"></span>
                                 Line management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="employees">
+                            <a class="nav-link" href="">
                                 <span data-feather="user"></span>
                                 Employee Management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>
@@ -99,33 +99,15 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="?insert_train">
+                            <a class="nav-link" href="{{url("admin/trains?insert_train")}}">
                                 <span data-feather="file-text"></span>
                                 Add Trains
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?view_all_trains">
+                            <a class="nav-link" href="{{route("view_trains")}}">
                                 <span data-feather="file-text"></span>
                                 View Trains
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Search Trains
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?insert_train_type">
-                                <span data-feather="file-text"></span>
-                                Insert new Train type
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?view_train_types">
-                                <span data-feather="file-text"></span>
-                                View Train types
                             </a>
                         </li>
                     </ul>
@@ -139,21 +121,10 @@
 @if(isset($_GET['insert_train']))
     @include("admin.insert_train_index")
 @endif
-@if(isset($_GET['insert_train_type']))
-    @include("admin.insert_train_type")
-@endif
-@if(isset($_GET['view_all_trains']))
-    @include("admin.view_trains")
-@endif
-@if(isset($_GET['view_train_types']))
-    @include("admin.view_train_types")
-@endif
 
 </body>
-<script src="{{ url('/scripts/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-        crossorigin="anonymous"></script>
+<script src="{{ url('/js/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>

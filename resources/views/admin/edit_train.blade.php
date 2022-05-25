@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 
-$train_types = DB::table('train_types')->get();
+$admins = DB::table('admins')->get();
 
 ?>
     <!doctype html>
@@ -43,7 +43,7 @@ $train_types = DB::table('train_types')->get();
            href="#">Welcome {{$data->name}}</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="logout">Sign out</a>
+                <a class="nav-link" href="{{url("admin/logout")}}">Sign out</a>
             </li>
         </ul>
         <button style="margin-right: 80px;" class="navbar-toggler position-absolute d-md-none collapsed" type="button"
@@ -65,25 +65,25 @@ $train_types = DB::table('train_types')->get();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{url("admin/stations")}}">
+                            <a class="nav-link" aria-current="page" href="">
                                 <span data-feather="airplay"></span>
                                 Station management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">
+                            <a class="nav-link" aria-current="page" href="">
                                 <span data-feather="airplay"></span>
                                 Line management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/employees")}}">
+                            <a class="nav-link" href="">
                                 <span data-feather="user"></span>
                                 Employee Management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>
@@ -112,27 +112,9 @@ $train_types = DB::table('train_types')->get();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains/?view_all_trains")}}">
+                            <a class="nav-link" href="{{route("view_trains")}}">
                                 <span data-feather="file-text"></span>
                                 View Trains
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Search Trains
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?insert_train_type")}}">
-                                <span data-feather="file-text"></span>
-                                Insert new Train type
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{url("admin/trains?view_train_types")}}">
-                                <span data-feather="file-text"></span>
-                                View Train types
                             </a>
                         </li>
                     </ul>
@@ -169,25 +151,34 @@ $train_types = DB::table('train_types')->get();
                     <span class="text-danger">@error('number') {{$message}} @enderror</span>
                 </div>
 
+                <div class="col-sm-5">
+                    <label for="train_model" class="form-label">Train model<span
+                            class="text-muted">(Required)</span></label>
+                    <input type="text" class="form-control" id="train_model" placeholder="" name="train_model"
+                           value="{{$train->train_model}}">
+                    <span class="text-danger">@error('train_model') {{$message}} @enderror</span>
+                </div>
 
-                <div class="col-md-7">
-                    <label for="type" class="form-label">Type<span class="text-muted">(Required)</span></label>
-                    <select class="form-select" id="type" name="type">
-                        @foreach($train_types as $train_type)
-                            @if($train->type == $train_type->name)
-                                <option selected value="{{$train_type->name}}">{{$train_type->name}}</option>
+                <div class="col-sm-3">
+                    <label for="no_of_cars" class="form-label">Number of cars<span class="text-muted">(Required)</span></label>
+                    <input type="text" class="form-control" id="no_of_cars" placeholder="" name="no_of_cars"
+                           value="{{$train->no_of_cars}}">
+                    <span class="text-danger">@error('no_of_cars') {{$message}} @enderror</span>
+                </div>
+
+                <div class="col-md-8">
+                    <label for="admin" class="form-label">Assign admin<span class="text-muted">(Required)</span></label>
+                    <select class="form-select" id="admin" name="admin">
+                        <option value="null">--None--</option>
+                        @foreach($admins as $admin)
+                            @if($train->admin == $admin->id)
+                                <option selected value="{{$admin->id}}">{{$admin->name}}</option>
                             @else
-                                <option value="{{$train_type->name}}">{{$train_type->name}}</option>
+                                <option selected value="{{$admin->id}}">{{$admin->name}}</option>
                             @endif
                         @endforeach
                     </select>
-                    <span class="text-danger">@error('type') {{$message}} @enderror</span>
-                </div>
-
-                <div class="col-8">
-                    <label for="no_of_cars" class="form-label">Number of cars<span class="text-muted">(Required)</span></label>
-                    <input type="type" class="form-control" id="no_of_cars" placeholder="" name="no_of_cars" value="{{$train->no_of_cars}}">
-                    <span class="text-danger">@error('no_of_cars') {{$message}} @enderror</span>
+                    <span class="text-danger">@error('admin') {{$message}} @enderror</span>
                 </div>
 
                 <div style="margin-top: 15px;" class="row ">
@@ -200,7 +191,8 @@ $train_types = DB::table('train_types')->get();
                                 true
                             </label>
                         @else
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="true">
+                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1"
+                                   value="true">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 true
                             </label>
@@ -214,7 +206,8 @@ $train_types = DB::table('train_types')->get();
                                 false
                             </label>
                         @else
-                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" value="false"
+                            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2"
+                                   value="false"
                                    checked>
                             <label class="form-check-label" for="flexRadioDefault2">
                                 false
@@ -222,7 +215,7 @@ $train_types = DB::table('train_types')->get();
                         @endif
                     </div>
                 </div>
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
+                <button class="w-100 btn btn-outline-primary btn-lg" type="submit">Submit</button>
         </form>
         <form method="POST" action="{{route('delete_train', ['train_id'=>($train->id)])}}">
             @csrf
@@ -233,10 +226,8 @@ $train_types = DB::table('train_types')->get();
     </div>
 </main>
 </body>
-<script src="{{ url('/scripts/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-        crossorigin="anonymous"></script>
+<script src="{{ url('/js/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>

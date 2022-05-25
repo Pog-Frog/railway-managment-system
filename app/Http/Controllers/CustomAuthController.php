@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Train;
-use App\Train_type;
-use Illuminate\Http\Request;
 use App\Admin;
+use App\Train;
+use Illuminate\Http\Request;
 use Hash;
-use MongoDB\Driver\Session;
+use Illuminate\Support\Str;
 
 class CustomAuthController extends Controller
 {
@@ -72,12 +71,6 @@ class CustomAuthController extends Controller
         }
     }
 
-    public function employees_index()
-    {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        return view("admin/employees_management_index", compact('data'));
-    }
-
     public function trains_index()
     {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
@@ -87,33 +80,23 @@ class CustomAuthController extends Controller
     public function insert_train(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:trains',
-            'type' => 'required',
-            'no_of_cars' => 'required'
+            'number' => 'required|unique:trains|min:3',
+            'train_model' => 'required',
+            'no_of_cars' => 'required',
+            'admin' => 'required',
+            'status' => 'required'
         ]);
         $train = new Train();
         $train->number = $request->number;
+        $train->train_model = $request->train_model;
         $train->no_of_cars = $request->no_of_cars;
-        $train->type = $request->type;
         $train->status = $request->status;
+        if ($request->admin != "null") {
+            $train->admin = $request->admin;
+        }
         $result = $train->save();
         if ($result) {
             return back()->with('success', 'Train Saved');
-        } else {
-            return back()->with('fail', 'Something went wrong');
-        }
-    }
-
-    public function insert_train_type(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|unique:train_types',
-        ]);
-        $train_type = new Train_type();
-        $train_type->name = $request->name;
-        $result = $train_type->save();
-        if ($result) {
-            return back()->with('success', 'Train Type Saved');
         } else {
             return back()->with('fail', 'Something went wrong');
         }
@@ -131,18 +114,26 @@ class CustomAuthController extends Controller
     {
         $request->validate([
             'number' => 'required|min:3',
-            'type' => 'required',
-            'no_of_cars' => 'required'
+            'train_model' => 'required',
+            'no_of_cars' => 'required',
+            'admin' => 'required',
+            'status' => 'required'
         ]);
         $train = Train::where('id', '=', $request->train_id)->first();
         $tmp = Train::where('number', '=', $request->number)->first();
-        if ($tmp->id != $train->id) {
-            return back()->with('fail', 'This number is already registered for another train');
+        if ($tmp) {
+            if ($tmp->id != $train->id) {
+                return back()->with('fail', 'This number is already registered for another train');
+            }
         }
         $train->number = $request->number;
+        $train->train_model = $request->train_model;
         $train->no_of_cars = $request->no_of_cars;
-        $train->type = $request->type;
+        $train->admin = $request->admin;
         $train->status = $request->status;
+        if ($request->admin != "null") {
+            $train->admin = $request->admin;
+        }
         $result = $train->save();
         if ($result) {
             return back()->with('success', 'Train Updated');
@@ -162,18 +153,31 @@ class CustomAuthController extends Controller
         }
     }
 
-    public function delete_train_type(Request $request){
-        $train_type = Train_type::where('id', '=', $request->type_id)->first();
-        $result = $train_type->delete();
-        if ($result) {
-            return redirect('admin/trains?view_train_types')->with('success', 'Train type Deleted');
-        }
-        return redirect('admin/trains?view_train_types')->with('fail', 'Something went wrong');
-    }
-
-    public function stations_index()
+    public function view_trains(Request $request)
     {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        return view("admin/stations_managment_index", compact('data'));
+        return view("admin/view_trains", compact('data'));
+    }
+
+    public function search_trains(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $user_query = $request->search_query;
+        $result = Train::query()
+            ->where('number', 'LIKE', "%{$user_query}%")
+            ->orWhere('id', 'LIKE', "%{$user_query}%")
+            ->orWhere('status', 'LIKE', "%{$user_query}%")
+            ->orWhere('train_model', 'LIKE', "%{$user_query}%")
+            ->orWhere('no_of_cars', 'LIKE', "%{$user_query}%")
+            ->get();
+        if ($result->isEmpty()) {
+            $admin= Admin::where('name', '=', $user_query)->first();
+            if ($admin) {
+                $result = Train::query()
+                    ->where('admin', 'LIKE', "%{$admin->id}%")
+                    ->get();
+            }
+        }
+        return view("admin/view_trains", compact('data', 'result'));
     }
 }
