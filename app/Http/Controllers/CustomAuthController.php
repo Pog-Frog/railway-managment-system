@@ -326,12 +326,12 @@ class CustomAuthController extends Controller
             return view("admin/view_allowed_trains", compact('data', 'station', 'can_stop', 'cannot_stop'));
         }
         $result = Train::query()
+            ->whereNotIn('id', $temp_ids)
             ->where('number', 'LIKE', "%{$user_query}%")
             ->orWhere('id', 'LIKE', "%{$user_query}%")
             ->orWhere('status', 'LIKE', "%{$user_query}%")
             ->orWhere('train_model', 'LIKE', "%{$user_query}%")
             ->orWhere('no_of_cars', 'LIKE', "%{$user_query}%")
-            ->whereNotIn('id', $temp_ids)
             ->get();
         if ($result->isEmpty()) {
             $admin= Admin::where('name', '=', $user_query)->first();
