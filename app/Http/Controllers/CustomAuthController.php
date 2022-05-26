@@ -106,7 +106,7 @@ class CustomAuthController extends Controller
             $train->admin = $request->admin;
         }
         $result = $train->save();
-        if($request->line != "null" && $request->captain != "null"){
+        if ($request->line != "null" && $request->captain != "null") {
             $assinged_line_for_train = new Assigned_Trains_for_Lines();
             $assinged_line_for_train->train = $train->id;
             if ($request->admin != "null") {
@@ -120,8 +120,7 @@ class CustomAuthController extends Controller
             } else {
                 return back()->with('fail', 'Something went wrong');
             }
-        }
-        elseif ($request->line != "null" && $request->captain == "null"){
+        } elseif ($request->line != "null" && $request->captain == "null") {
             $assigned_line_for_train = new Assigned_Trains_for_Lines();
             $assigned_line_for_train->train = $train->id;
             if ($request->admin != "null") {
@@ -134,8 +133,7 @@ class CustomAuthController extends Controller
             } else {
                 return back()->with('fail', 'Something went wrong');
             }
-        }
-        elseif ($request->line == "null" && $request->captain != "null"){
+        } elseif ($request->line == "null" && $request->captain != "null") {
             $assigned_line_for_train = new Assigned_Trains_for_Lines();
             $assigned_line_for_train->train = $train->id;
             if ($request->admin != "null") {
@@ -148,8 +146,7 @@ class CustomAuthController extends Controller
             } else {
                 return back()->with('fail', 'Something went wrong');
             }
-        }
-        else{
+        } else {
             if ($result) {
                 return back()->with('success', 'Train Saved');
             } else {
@@ -196,64 +193,36 @@ class CustomAuthController extends Controller
             $train->admin = null;
         }
         $result = $train->save();
-        if($request->line != "null" && $request->captain != "null"){
-            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
-            if(empty($assigned_line_for_train)){
-                $assigned_line_for_train = new Assigned_Trains_for_Lines();
+        $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
+        if (empty($assigned_line_for_train)) {
+            if ($request->captain == "null" && $request->line == "null") {
+                if ($result) {
+                    return back()->with('success', 'Train Saved');
+                } else {
+                    return back()->with('fail', 'Something went wrong');
+                }
             }
-            $assigned_line_for_train->train = $train->id;
-            if ($request->admin != "null") {
-                $assigned_line_for_train->admin = $train->admin;
-            }
-            $assigned_line_for_train->captain = $request->captain;
-            $assigned_line_for_train->line = $request->line;
-            $result2 = $assigned_line_for_train->save();
-            if ($result && $result2) {
-                return back()->with('success', 'Train Saved');
-            } else {
-                return back()->with('fail', 'Something went wrong');
-            }
+            $assigned_line_for_train = new Assigned_Trains_for_Lines();
         }
-        elseif ($request->line != "null" && $request->captain == "null"){
-            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
-            if(empty($assigned_line_for_train)){
-                $assigned_line_for_train = new Assigned_Trains_for_Lines();
-            }
-            $assigned_line_for_train->train = $train->id;
-            if ($request->admin != "null") {
-                $assigned_line_for_train->admin = $train->admin;
-            }
-            $assigned_line_for_train->line = $request->line;
-            $result2 = $assigned_line_for_train->save();
-            if ($result && $result2) {
-                return back()->with('success', 'Train Saved');
-            } else {
-                return back()->with('fail', 'Something went wrong');
-            }
+        $assigned_line_for_train->train = $train->id;
+        if ($request->admin != "null") {
+            $assigned_line_for_train->admin = $train->admin;
+        } else {
+            $assigned_line_for_train->admin = null;
         }
-        elseif ($request->line == "null" && $request->captain != "null"){
-            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
-            if(empty($assigned_line_for_train)){
-                $assigned_line_for_train = new Assigned_Trains_for_Lines();
-            }
-            $assigned_line_for_train->train = $train->id;
-            if ($request->admin != "null") {
-                $assigned_line_for_train->admin = $train->admin;
-            }
-            $assigned_line_for_train->captain = $request->captain;
-            $result2 = $assigned_line_for_train->save();
-            if ($result && $result2) {
-                return back()->with('success', 'Train Saved');
-            } else {
-                return back()->with('fail', 'Something went wrong');
-            }
+        $assigned_line_for_train->captain = $request->captain;
+        $assigned_line_for_train->line = $request->line;
+        if ($request->captain == "null") {
+            $assigned_line_for_train->captain = null;
         }
-        else{
-            if ($result) {
-                return back()->with('success', 'Train Saved');
-            } else {
-                return back()->with('fail', 'Something went wrong');
-            }
+        if ($request->line == "null") {
+            $assigned_line_for_train->line = null;
+        }
+        $result2 = $assigned_line_for_train->save();
+        if ($result && $result2) {
+            return back()->with('success', 'Train Saved');
+        } else {
+            return back()->with('fail', 'Something went wrong');
         }
     }
 
@@ -262,15 +231,14 @@ class CustomAuthController extends Controller
         $train = Train::where('id', '=', $request->train_id)->first();
         $assigned_line_for_train = Assigned_Trains_for_Lines::where('train', '=', $request->train_id)->first();
         $result = $train->delete();
-        if(!empty($assigned_line_for_train)){
+        if (!empty($assigned_line_for_train)) {
             $result2 = $assigned_line_for_train->delete();
             if ($result && $result2) {
                 return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
             } else {
                 return redirect('admin/trains/view_trains')->with('fail', 'Something went wrong');
             }
-        }
-        else{
+        } else {
             if ($result) {
                 return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
             } else {
@@ -752,10 +720,10 @@ class CustomAuthController extends Controller
             'source_station' => 'required',
             'destination_station' => 'required'
         ]);
-        if($request->source_station == $request->destination_station){
+        if ($request->source_station == $request->destination_station) {
             return back()->with('fail', 'The Source station cannot be the same as the Destination station');
         }
-        if($request->source_station == "null" || $request->destination_station == "null"){
+        if ($request->source_station == "null" || $request->destination_station == "null") {
             return back()->with('fail', 'The Source station or the Destination station cannot be empty (None)');
         }
         $line = new Line();
@@ -783,10 +751,10 @@ class CustomAuthController extends Controller
             'source_station' => 'required',
             'destination_station' => 'required'
         ]);
-        if($request->source_station == $request->destination_station){
+        if ($request->source_station == $request->destination_station) {
             return back()->with('fail', 'The Source station cannot be the same as the Destination station');
         }
-        if($request->source_station == "null" || $request->destination_station == "null"){
+        if ($request->source_station == "null" || $request->destination_station == "null") {
             return back()->with('fail', 'The Source station or the Destination station cannot be empty (None)');
         }
         $line = Line::where('id', '=', $request->line_id)->first();
