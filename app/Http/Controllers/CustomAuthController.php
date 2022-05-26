@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use App\Can_stop;
+use App\Captain;
+use App\Employee;
+use App\Mail\AdminEmail;
 use App\Station;
+use App\Technician;
 use App\Train;
 use Illuminate\Http\Request;
-use Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class CustomAuthController extends Controller
@@ -367,4 +371,253 @@ class CustomAuthController extends Controller
         }
         return back()->with('remove_fail', 'Something went wrong');
     }
+
+    public function employees_index()
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/employees_management_index", compact('data'));
+    }
+
+    public function insert_employee_index(Request $request)
+    {
+        $choice = $request->type;
+        if ($choice == "captain") {
+            return redirect('admin/employees?insert_captain_index');
+        } elseif ($choice == "technician") {
+            return redirect('admin/employees?insert_technician_index');
+        } else {
+            return redirect('admin/employees?insert_reservation_employee_index');
+        }
+    }
+
+    public function insert_captain(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:captains'
+        ]);
+        $captain = new Captain();
+        $captain->name = $request->name;
+        $captain->email = $request->email;
+        $rand_pass = Str::random(12);
+        $captain->password = Hash::make($rand_pass);
+        $result = $captain->save();
+        $details = ['title' => 'Admin notification @railway MS', 'name' => $captain->name, 'body' => 'This email contains your password for your work account', 'content' => $rand_pass];
+        $subject = "Password Notification";
+        \Mail::to($captain->email)->send(new AdminEmail($details, $subject));
+        if ($result) {
+            return back()->with('success', 'Employee registered and an email has been sent with the user password')->with('profession', $request->profession);
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function insert_technician(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:technicians'
+        ]);
+        $technician = new Technician();
+        $technician->name = $request->name;
+        $technician->email = $request->email;
+        $rand_pass = Str::random(12);
+        $technician->password = Hash::make($rand_pass);
+        $result = $technician->save();
+        $details = ['title' => 'Admin notification @railway MS', 'name' => $technician->name, 'body' => 'This email contains your password for your work account', 'content' => $rand_pass];
+        $subject = "Password Notification";
+        \Mail::to($technician->email)->send(new AdminEmail($details, $subject));
+        if ($result) {
+            return back()->with('success', 'Employee registered and an email has been sent with the user password')->with('profession', $request->profession);
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function insert_reservation_employee(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:employees'
+        ]);
+        $emp = new Employee();
+        $emp->name = $request->name;
+        $emp->email = $request->email;
+        $rand_pass = Str::random(12);
+        $emp->password = Hash::make($rand_pass);
+        $result = $emp->save();
+        $details = ['title' => 'Admin notification @railway MS', 'name' => $emp->name, 'body' => 'This email contains your password for your work account', 'content' => $rand_pass];
+        $subject = "Password Notification";
+        \Mail::to($emp->email)->send(new AdminEmail($details, $subject));
+        if ($result) {
+            return back()->with('success', 'Employee registered and an email has been sent with the user password')->with('profession', $request->profession);
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function view_employees()
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/view_employees", compact('data'));
+    }
+
+    public function search_employees(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        if ($request->profession == "captain") {
+            $user_query = $request->search_query;
+            $result = Captain::query()
+                ->where('name', 'LIKE', "%{$user_query}%")
+                ->orWhere('email', 'LIKE', "%{$user_query}%")
+                ->get();
+            $index = 1;
+        } elseif ($request->profession == "technician") {
+            $user_query = $request->search_query;
+            $result = Technician::query()
+                ->where('name', 'LIKE', "%{$user_query}%")
+                ->orWhere('email', 'LIKE', "%{$user_query}%")
+                ->get();
+            $index = 2;
+        } else {
+            $user_query = $request->search_query;
+            $result = Employee::query()
+                ->where('name', 'LIKE', "%{$user_query}%")
+                ->orWhere('email', 'LIKE', "%{$user_query}%")
+                ->get();
+            $index = 3;
+        }
+        return view("admin/view_employees", compact('data', 'result', 'index'));
+    }
+
+    public function edit_captain_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $emp = Captain::where('id', '=', $request->emp_id)->first();
+        $profession = "captain";
+        return view('admin/edit_employee', compact('data', 'profession', 'emp'));
+
+    }
+
+    public function edit_technician_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $emp = Technician::where('id', '=', $request->emp_id)->first();
+        $profession = "technician";
+        return view('admin/edit_employee', compact('data', 'profession', 'emp'));
+    }
+
+    public function edit_reservation_employee_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $emp = Employee::where('id', '=', $request->emp_id)->first();
+        $profession = "reservation";
+        return view('admin/edit_employee', compact('data', 'profession', 'emp'));
+    }
+
+    public function edit_employee(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required'
+        ]);
+        if ($request->profession == "captain") {
+            $captain = Captain::where('id', '=', $request->emp_id)->first();
+            $tmp = Captain::where('name', '=', $request->name)->first();
+            if ($tmp) {
+                if ($tmp->id != $captain->id) {
+                    return back()->with('fail', 'This name is already registered for another employee');
+                }
+            }
+            $captain->name = $request->name;
+            $captain->email = $request->email;
+            $result = $captain->save();
+            if ($result) {
+                return back()->with('success', 'Employee Updated');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        } elseif ($request->profession == "technician") {
+            $technician = Technician::where('id', '=', $request->emp_id)->first();
+            $tmp = Technician::where('name', '=', $request->name)->first();
+            if ($tmp) {
+                if ($tmp->id != $technician->id) {
+                    return back()->with('fail', 'This name is already registered for another employee');
+                }
+            }
+            $technician->name = $request->name;
+            $technician->email = $request->email;
+            $result = $technician->save();
+            if ($result) {
+                return back()->with('success', 'Employee Updated');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        } else {
+            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
+            $tmp = Employee::where('name', '=', $request->name)->first();
+            if ($tmp) {
+                if ($tmp->id != $reservation_emp->id) {
+                    return back()->with('fail', 'This name is already registered for another employee');
+                }
+            }
+            $reservation_emp->name = $request->name;
+            $reservation_emp->email = $request->email;
+            $result = $reservation_emp->save();
+            if ($result) {
+                return back()->with('success', 'Employee Updated');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+    }
+
+    public function send_emp_password(Request $request)
+    {
+        $rand_pass = Str::random(12);
+        $subject = "Password Notification";
+        if ($request->profession == "captain") {
+            $captain = Captain::where('id', '=', $request->emp_id)->first();
+            $captain->password = Hash::make($rand_pass);
+            $result = $captain->save();
+            $details = ['title' => 'Admin notification @railway MS', 'name' => $captain->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
+            \Mail::to($captain->email)->send(new AdminEmail($details, $subject));
+        } elseif ($request->profession == "technician") {
+            $technician = Technician::where('id', '=', $request->emp_id)->first();
+            $technician->password = Hash::make($rand_pass);
+            $result = $technician->save();
+            $details = ['title' => 'Admin notification @railway MS', 'name' => $technician->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
+            \Mail::to($technician->email)->send(new AdminEmail($details, $subject));
+        } else {
+            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
+            $reservation_emp->password = Hash::make($rand_pass);
+            $result = $reservation_emp->save();
+            $details = ['title' => 'Admin notification @railway MS', 'name' => $reservation_emp->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
+            \Mail::to($reservation_emp->email)->send(new AdminEmail($details, $subject));
+        }
+        if ($result) {
+            return back()->with('success', 'An email has been sent with the user password');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function delete_employee(Request $request)
+    {
+        if ($request->profession == "captain") {
+            $captain = Captain::where('id', '=', $request->emp_id)->first();
+            $result = $captain->delete();
+        } elseif ($request->profession == "technician") {
+            $technician = Technician::where('id', '=', $request->emp_id)->first();
+            $result = $technician->delete();
+        } else {
+            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
+            $result = $reservation_emp->delete();
+        }
+        if ($result) {
+            return redirect('admin/employees/view_employees')->with('success', 'Employee Deleted');
+        }
+        return redirect('admin/employees/view_employees')->with('fail', 'Something went wrong');
+    }
+
 }

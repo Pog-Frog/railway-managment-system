@@ -77,7 +77,7 @@ $stations = Station::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/employees")}}">
                                 <span data-feather="user"></span>
                                 Employee Management
                             </a>
@@ -256,8 +256,9 @@ $stations = Station::all();
     </div>
 </main>
 </body>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
+<script src="{{ url('/js/jquery.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('/js/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>
