@@ -1,8 +1,11 @@
 <?php
+use App\Admin;
+use App\Line;
+use App\Captain;
 
-use Illuminate\Support\Facades\DB;
-
-$admins = DB::table('admins')->get()
+$admins = Admin::all();
+$lines = Line::all();
+$captains = Captain::all();
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div
@@ -44,7 +47,7 @@ $admins = DB::table('admins')->get()
                     <span class="text-danger">@error('no_of_cars') {{$message}} @enderror</span>
                 </div>
 
-                <div class="col-md-8">
+                <div class="col-sm-8">
                     <label for="admin" class="form-label">Assign admin<span class="text-muted">(Required)</span></label>
                     <select class="form-select" id="admin" name="admin">
                         <option value="null">--None--</option>
@@ -53,6 +56,28 @@ $admins = DB::table('admins')->get()
                         @endforeach
                     </select>
                     <span class="text-danger">@error('admin') {{$message}} @enderror</span>
+                </div>
+
+                <div class="col-sm-8">
+                    <label for="line" class="form-label">Assign Line<span class="text-muted">(Required)</span></label>
+                    <select class="form-select" id="line" name="line">
+                        <option value="null">--None--</option>
+                        @foreach($lines as $line)
+                            <option value="{{$line->id}}">No. {{$line->id}}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger">@error('line') {{$message}} @enderror</span>
+                </div>
+
+                <div class="col-md-8">
+                    <label for="captain" class="form-label">Assign Captain<span class="text-muted">(Required)</span></label>
+                    <select class="form-select" id="captain" name="captain">
+                        <option value="null">--None--</option>
+                        @foreach($captains as $captain)
+                            <option value="{{$captain->id}}">{{$captain->name}}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger">@error('captain') {{$message}} @enderror</span>
                 </div>
 
                 <div style="margin-top: 15px;" class="row ">

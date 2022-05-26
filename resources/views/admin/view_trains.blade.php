@@ -71,7 +71,7 @@ $trains = Train::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="">
+                            <a class="nav-link" aria-current="page" href="{{url("admin/lines")}}">
                                 <span data-feather="airplay"></span>
                                 Line management
                             </a>
