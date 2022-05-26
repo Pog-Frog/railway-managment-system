@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Assigned_Trains_for_Lines;
 use App\Can_stop;
 use App\Captain;
 use App\Employee;
@@ -10,6 +11,7 @@ use App\Mail\AdminEmail;
 use App\Station;
 use App\Technician;
 use App\Train;
+use App\Line;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -91,6 +93,8 @@ class CustomAuthController extends Controller
             'train_model' => 'required',
             'no_of_cars' => 'required',
             'admin' => 'required',
+            'line' => 'required',
+            'captain' => 'required',
             'status' => 'required'
         ]);
         $train = new Train();
@@ -102,11 +106,57 @@ class CustomAuthController extends Controller
             $train->admin = $request->admin;
         }
         $result = $train->save();
-        if ($result) {
-            return back()->with('success', 'Train Saved');
-        } else {
-            return back()->with('fail', 'Something went wrong');
+        if($request->line != "null" && $request->captain != "null"){
+            $assinged_line_for_train = new Assigned_Trains_for_Lines();
+            $assinged_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assinged_line_for_train->admin = $train->admin;
+            }
+            $assinged_line_for_train->captain = $request->captain;
+            $assinged_line_for_train->line = $request->line;
+            $result2 = $assinged_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
         }
+        elseif ($request->line != "null" && $request->captain == "null"){
+            $assigned_line_for_train = new Assigned_Trains_for_Lines();
+            $assigned_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assigned_line_for_train->admin = $train->admin;
+            }
+            $assigned_line_for_train->line = $request->line;
+            $result2 = $assigned_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+        elseif ($request->line == "null" && $request->captain != "null"){
+            $assigned_line_for_train = new Assigned_Trains_for_Lines();
+            $assigned_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assigned_line_for_train->admin = $train->admin;
+            }
+            $assigned_line_for_train->captain = $request->captain;
+            $result2 = $assigned_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+        else{
+            if ($result) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+
     }
 
     public function edit_train_index(Request $request)
@@ -114,7 +164,8 @@ class CustomAuthController extends Controller
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $train_id = $request->train_id;
         $train = Train::where('id', '=', $train_id)->first();
-        return view('admin/edit_train', compact('data', 'train'));
+        $assigned_line_for_train = Assigned_Trains_for_Lines::where('train', '=', $train_id)->first();
+        return view('admin/edit_train', compact('data', 'train', 'assigned_line_for_train'));
     }
 
     public function edit_train(Request $request)
@@ -124,6 +175,8 @@ class CustomAuthController extends Controller
             'train_model' => 'required',
             'no_of_cars' => 'required',
             'admin' => 'required',
+            'line' => 'required',
+            'captain' => 'required',
             'status' => 'required'
         ]);
         $train = Train::where('id', '=', $request->train_id)->first();
@@ -139,26 +192,90 @@ class CustomAuthController extends Controller
         $train->status = $request->status;
         if ($request->admin != "null") {
             $train->admin = $request->admin;
-        }
-        else{
+        } else {
             $train->admin = null;
         }
         $result = $train->save();
-        if ($result) {
-            return back()->with('success', 'Train Updated');
-        } else {
-            return back()->with('fail', 'Something went wrong');
+        if($request->line != "null" && $request->captain != "null"){
+            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
+            if(empty($assigned_line_for_train)){
+                $assigned_line_for_train = new Assigned_Trains_for_Lines();
+            }
+            $assigned_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assigned_line_for_train->admin = $train->admin;
+            }
+            $assigned_line_for_train->captain = $request->captain;
+            $assigned_line_for_train->line = $request->line;
+            $result2 = $assigned_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+        elseif ($request->line != "null" && $request->captain == "null"){
+            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
+            if(empty($assigned_line_for_train)){
+                $assigned_line_for_train = new Assigned_Trains_for_Lines();
+            }
+            $assigned_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assigned_line_for_train->admin = $train->admin;
+            }
+            $assigned_line_for_train->line = $request->line;
+            $result2 = $assigned_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+        elseif ($request->line == "null" && $request->captain != "null"){
+            $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
+            if(empty($assigned_line_for_train)){
+                $assigned_line_for_train = new Assigned_Trains_for_Lines();
+            }
+            $assigned_line_for_train->train = $train->id;
+            if ($request->admin != "null") {
+                $assigned_line_for_train->admin = $train->admin;
+            }
+            $assigned_line_for_train->captain = $request->captain;
+            $result2 = $assigned_line_for_train->save();
+            if ($result && $result2) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
+        }
+        else{
+            if ($result) {
+                return back()->with('success', 'Train Saved');
+            } else {
+                return back()->with('fail', 'Something went wrong');
+            }
         }
     }
 
     public function delete_train(Request $request)
     {
         $train = Train::where('id', '=', $request->train_id)->first();
+        $assigned_line_for_train = Assigned_Trains_for_Lines::where('train', '=', $request->train_id)->first();
         $result = $train->delete();
-        if ($result) {
-            return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
-        } else {
-            return redirect('admin/trains/view_trains')->with('fail', 'Something went wrong');
+        if(!empty($assigned_line_for_train)){
+            $result2 = $assigned_line_for_train->delete();
+            if ($result && $result2) {
+                return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
+            } else {
+                return redirect('admin/trains/view_trains')->with('fail', 'Something went wrong');
+            }
+        }
+        else{
+            if ($result) {
+                return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
+            } else {
+                return redirect('admin/trains/view_trains')->with('fail', 'Something went wrong');
+            }
         }
     }
 
@@ -172,7 +289,7 @@ class CustomAuthController extends Controller
     {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $user_query = $request->search_query;
-        if($user_query == null){
+        if ($user_query == null) {
             return view("admin/view_trains", compact('data'));
         }
         $result = Train::query()
@@ -183,7 +300,7 @@ class CustomAuthController extends Controller
             ->orWhere('no_of_cars', 'LIKE', "%{$user_query}%")
             ->get();
         if ($result->isEmpty()) {
-            $admin= Admin::where('name', '=', $user_query)->first();
+            $admin = Admin::where('name', '=', $user_query)->first();
             if ($admin) {
                 $result = Train::query()
                     ->where('admin', 'LIKE', "%{$admin->id}%")
@@ -247,8 +364,7 @@ class CustomAuthController extends Controller
         $station->city = $request->city;
         if ($request->admin != "null") {
             $station->admin = $request->admin;
-        }
-        else{
+        } else {
             $station->admin = null;
         }
         $result = $station->save();
@@ -280,7 +396,7 @@ class CustomAuthController extends Controller
     {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $user_query = $request->search_query;
-        if($user_query == null){
+        if ($user_query == null) {
             return view("admin/view_stations", compact('data'));
         }
         $result = Station::query()
@@ -288,7 +404,7 @@ class CustomAuthController extends Controller
             ->orWhere('city', 'LIKE', "%{$user_query}%")
             ->get();
         if ($result->isEmpty()) {
-            $admin= Admin::where('name', '=', $user_query)->first();
+            $admin = Admin::where('name', '=', $user_query)->first();
             if ($admin) {
                 $result = Station::query()
                     ->where('admin', 'LIKE', "%{$admin->id}%")
@@ -298,35 +414,37 @@ class CustomAuthController extends Controller
         return view("admin/view_stations", compact('data', 'result'));
     }
 
-    public function view_allowed_trains(Request $request){
+    public function view_allowed_trains(Request $request)
+    {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $station_id = $request->station_id;
         $station = Station::where('id', '=', $station_id)->first();
         $can_stop = Can_stop::query()
-            ->where('station', '=',  $station_id)
+            ->where('station', '=', $station_id)
             ->get();
         $temp_ids = [];
-        foreach ($can_stop as $x){
+        foreach ($can_stop as $x) {
             $temp_ids[] = $x->train;
         }
         $cannot_stop = Train::query()->whereNotIn('id', $temp_ids)->get();
         return view("admin/view_allowed_trains", compact('data', 'station', 'can_stop', 'cannot_stop'));
     }
 
-    public function search_not_allowed_trains(Request $request){
+    public function search_not_allowed_trains(Request $request)
+    {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $station_id = $request->station_id;
         $station = Station::where('id', '=', $station_id)->first();
         $can_stop = Can_stop::query()
-            ->where('station', '=',  $station_id)
+            ->where('station', '=', $station_id)
             ->get();
         $temp_ids = [];
-        foreach ($can_stop as $x){
+        foreach ($can_stop as $x) {
             $temp_ids[] = $x->train;
         }
         $cannot_stop = Train::query()->whereNotIn('id', $temp_ids)->get();
         $user_query = $request->search_query;
-        if($user_query == null){
+        if ($user_query == null) {
             return view("admin/view_allowed_trains", compact('data', 'station', 'can_stop', 'cannot_stop'));
         }
         $result = Train::query()
@@ -338,7 +456,7 @@ class CustomAuthController extends Controller
             ->orWhere('no_of_cars', 'LIKE', "%{$user_query}%")
             ->get();
         if ($result->isEmpty()) {
-            $admin= Admin::where('name', '=', $user_query)->first();
+            $admin = Admin::where('name', '=', $user_query)->first();
             if ($admin) {
                 $result = Train::query()
                     ->where('admin', 'LIKE', "%{$admin->id}%")
@@ -349,7 +467,8 @@ class CustomAuthController extends Controller
         return view("admin/view_allowed_trains", compact('data', 'station', 'can_stop', 'cannot_stop', 'result'));
     }
 
-    public function add_allowed_train(Request $request){
+    public function add_allowed_train(Request $request)
+    {
         $record = new Can_stop();
         $record->train = $request->train_id;
         $record->station = $request->station_id;
@@ -361,7 +480,8 @@ class CustomAuthController extends Controller
         }
     }
 
-    public function remove_allowed_train(Request $request){
+    public function remove_allowed_train(Request $request)
+    {
         $record = Can_stop::query()
             ->where('station', '=', $request->station_id)
             ->where('train', '=', $request->train_id);
@@ -620,4 +740,91 @@ class CustomAuthController extends Controller
         return redirect('admin/employees/view_employees')->with('fail', 'Something went wrong');
     }
 
+    public function lines_index()
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/lines_managment_index", compact('data'));
+    }
+
+    public function insert_line(Request $request)
+    {
+        $request->validate([
+            'source_station' => 'required',
+            'destination_station' => 'required'
+        ]);
+        if($request->source_station == $request->destination_station){
+            return back()->with('fail', 'The Source station cannot be the same as the Destination station');
+        }
+        if($request->source_station == "null" || $request->destination_station == "null"){
+            return back()->with('fail', 'The Source station or the Destination station cannot be empty (None)');
+        }
+        $line = new Line();
+        $line->source_station = $request->source_station;
+        $line->destination_station = $request->destination_station;
+        $result = $line->save();
+        if ($result) {
+            return back()->with('success', 'Line Saved');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function edit_line_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $line_id = $request->line_id;
+        $line = Line::where('id', '=', $line_id)->first();
+        return view('admin/edit_line', compact('data', 'line'));
+    }
+
+    public function edit_line(Request $request)
+    {
+        $request->validate([
+            'source_station' => 'required',
+            'destination_station' => 'required'
+        ]);
+        if($request->source_station == $request->destination_station){
+            return back()->with('fail', 'The Source station cannot be the same as the Destination station');
+        }
+        if($request->source_station == "null" || $request->destination_station == "null"){
+            return back()->with('fail', 'The Source station or the Destination station cannot be empty (None)');
+        }
+        $line = Line::where('id', '=', $request->line_id)->first();
+        $line->source_station = $request->source_station;
+        $line->destination_station = $request->destination_station;
+        $result = $line->save();
+        if ($result) {
+            return back()->with('success', 'Line Updated');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function delete_line(Request $request)
+    {
+        $line = Line::where('id', '=', $request->line_id)->first();
+        $result = $line->delete();
+        if ($result) {
+            return redirect('admin/lines/view_lines')->with('success', 'Line Deleted');
+        }
+        return redirect('admin/lines/view_lines')->with('fail', 'Something went wrong');
+    }
+
+    public function view_lines(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/view_lines", compact('data'));
+    }
+
+    public function search_lines(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $user_query = $request->search_query;
+        $result = Line::query()
+            ->where('id', 'LIKE', "%{$user_query}%")
+            ->orWhere('source_station', 'LIKE', "%{$user_query}%")
+            ->orWhere('destination_station', 'LIKE', "%{$user_query}%")
+            ->get();
+        return view("admin/view_lines", compact('data', 'result'));
+    }
 }

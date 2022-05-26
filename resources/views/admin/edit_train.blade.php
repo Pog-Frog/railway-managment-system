@@ -1,9 +1,11 @@
 <?php
+use App\Admin;
+use App\Line;
+use App\Captain;
 
-use Illuminate\Support\Facades\DB;
-
-$admins = DB::table('admins')->get();
-
+$admins = Admin::all();
+$lines = Line::all();
+$captains = Captain::all();
 ?>
 
 <!doctype html>
@@ -72,7 +74,7 @@ $admins = DB::table('admins')->get();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="">
+                            <a class="nav-link" aria-current="page" href="{{url("admin/lines")}}">
                                 <span data-feather="airplay"></span>
                                 Line management
                             </a>
@@ -181,6 +183,60 @@ $admins = DB::table('admins')->get();
                     </select>
                     <span class="text-danger">@error('admin') {{$message}} @enderror</span>
                 </div>
+
+                @if(isset($assigned_line_for_train))
+                    <div class="col-sm-8">
+                        <label for="line" class="form-label">Assign Line<span class="text-muted">(Required)</span></label>
+                        <select class="form-select" id="line" name="line">
+                            <option value="null">--None--</option>
+                            @foreach($lines as $line)
+                                @if(!is_null($assigned_line_for_train->lines) && $assigned_line_for_train->lines->id == $line->id)
+                                    <option selected value="{{$line->id}}">No. {{$line->id}}</option>
+                                @else
+                                    <<option value="{{$line->id}}">No. {{$line->id}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <span class="text-danger">@error('line') {{$message}} @enderror</span>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="captain" class="form-label">Assign Captain<span class="text-muted">(Required)</span></label>
+                        <select class="form-select" id="captain" name="captain">
+                            <option value="null">--None--</option>
+                            @foreach($captains as $captain)
+                                @if(!is_null($assigned_line_for_train->captains) && $assigned_line_for_train->captains->id == $captain->id)
+                                    <option selected value="{{$captain->id}}">{{$captain->name}}</option>
+                                @else
+                                    <option value="{{$captain->id}}">{{$captain->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <span class="text-danger">@error('captain') {{$message}} @enderror</span>
+                    </div>
+                @else
+                    <div class="col-sm-8">
+                        <label for="line" class="form-label">Assign Line<span class="text-muted">(Required)</span></label>
+                        <select class="form-select" id="line" name="line">
+                            <option value="null">--None--</option>
+                            @foreach($lines as $line)
+                                <option value="{{$line->id}}">No. {{$line->id}}</option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger">@error('line') {{$message}} @enderror</span>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="captain" class="form-label">Assign Captain<span class="text-muted">(Required)</span></label>
+                        <select class="form-select" id="captain" name="captain">
+                            <option value="null">--None--</option>
+                            @foreach($captains as $captain)
+                                <option value="{{$captain->id}}">{{$captain->name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger">@error('captain') {{$message}} @enderror</span>
+                    </div>
+                @endif
 
                 <div style="margin-top: 15px;" class="row ">
                     <label style="margin-left: -10px;" class="form-label">Train status</label>
