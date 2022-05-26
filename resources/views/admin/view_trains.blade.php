@@ -77,7 +77,7 @@ $trains = Train::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/employees")}}">
                                 <span data-feather="user"></span>
                                 Employee Management
                             </a>
@@ -162,9 +162,11 @@ $trains = Train::all();
             @if(isset($result))
                 @foreach($result as $train)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
+                        <td style="text-align: center">
+                            <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
+                            </div>
+                        </td>
 
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
@@ -208,9 +210,11 @@ $trains = Train::all();
             @else
                 @foreach($trains as $train)
                     <tr>
-                        <th scope="row">
-                            <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
-                        </th>
+                        <td style="text-align: center">
+                            <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                <input type="type" style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;" name="train_id" value="{{$train->id}}" disabled>
+                            </div>
+                        </td>
 
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
@@ -257,8 +261,9 @@ $trains = Train::all();
     </div>
 </main>
 </body>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
+<script src="{{ url('/js/jquery.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('/js/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>

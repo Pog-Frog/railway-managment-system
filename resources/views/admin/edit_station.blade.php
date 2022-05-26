@@ -78,7 +78,7 @@ $admins = DB::table('admins')->get();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/employees")}}">
                                 <span data-feather="user"></span>
                                 Employee Management
                             </a>
@@ -168,7 +168,7 @@ $admins = DB::table('admins')->get();
                             @if($station->admin == $admin->id)
                                 <option selected value="{{$admin->id}}">{{$admin->name}}</option>
                             @else
-                                <option selected value="{{$admin->id}}">{{$admin->name}}</option>
+                                <option value="{{$admin->id}}">{{$admin->name}}</option>
                             @endif
                         @endforeach
                     </select>
@@ -186,8 +186,9 @@ $admins = DB::table('admins')->get();
     </div>
 </main>
 </body>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 
+<script src="{{ url('/js/jquery.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('/js/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>
