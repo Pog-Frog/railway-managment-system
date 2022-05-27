@@ -83,7 +83,7 @@ $lines = Line::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/trips")}}">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>
@@ -152,6 +152,7 @@ $lines = Line::all();
                 <th scope="col" style="text-align: center">Destination station - city</th>
                 <th scope="col" style="text-align: center">created at</th>
                 <th scope="col" style="text-align: center">updated at</th>
+                <th scope="col" style="text-align: center">view assigned trains</th>
                 <th scope="col" style="text-align: center">edit</th>
             </tr>
             </thead>
@@ -217,6 +218,9 @@ $lines = Line::all();
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                 {{$line->updated_at}}
                             </div>
+                        </td>
+                        <td style="text-align: center">
+                            <a href="{{route('view_assigned_trains', ['line_id'=>($line->id)])}}">view</a>
                         </td>
                         <td style="text-align: center">
                             <a href="{{route('edit_line_index', ['line_id'=>($line->id)])}}">Edit</a>

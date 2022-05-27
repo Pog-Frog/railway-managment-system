@@ -27,10 +27,10 @@ $captains = Captain::all();
             @csrf
             <div class="row g-3">
                 <div class="col-sm-6">
-                    <label for="number" class="form-label">Train number<span
+                    <label for="train_no" class="form-label">Train number<span
                             class="text-muted">(Required)</span></label>
-                    <input type="text" class="form-control" id="number" placeholder="" name="number">
-                    <span class="text-danger">@error('number') {{$message}} @enderror</span>
+                    <input type="text" class="form-control" id="train_no" placeholder="" name="train_no">
+                    <span class="text-danger">@error('train_no') {{$message}} @enderror</span>
                 </div>
 
 

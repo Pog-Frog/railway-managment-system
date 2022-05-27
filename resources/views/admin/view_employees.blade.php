@@ -85,7 +85,7 @@ $technicians = DB::table('technicians')->get();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/trips")}}">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>

@@ -1,5 +1,5 @@
 <?php return array (
-  'providers' => 
+  'providers' =>
   array (
     0 => 'Illuminate\\Auth\\AuthServiceProvider',
     1 => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
@@ -23,18 +23,20 @@
     19 => 'Illuminate\\Translation\\TranslationServiceProvider',
     20 => 'Illuminate\\Validation\\ValidationServiceProvider',
     21 => 'Illuminate\\View\\ViewServiceProvider',
-    22 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    23 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    24 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    25 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    26 => 'Carbon\\Laravel\\ServiceProvider',
-    27 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    28 => 'App\\Providers\\AppServiceProvider',
-    29 => 'App\\Providers\\AuthServiceProvider',
-    30 => 'App\\Providers\\EventServiceProvider',
-    31 => 'App\\Providers\\RouteServiceProvider',
+    22 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    23 => 'Facade\\Ignition\\IgnitionServiceProvider',
+    24 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    25 => 'Fruitcake\\Cors\\CorsServiceProvider',
+    26 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    27 => 'Carbon\\Laravel\\ServiceProvider',
+    28 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    29 => 'App\\Providers\\AppServiceProvider',
+    30 => 'App\\Providers\\AuthServiceProvider',
+    31 => 'App\\Providers\\EventServiceProvider',
+    32 => 'App\\Providers\\RouteServiceProvider',
+    33 => 'Barryvdh\\DomPDF\\ServiceProvider',
   ),
-  'eager' => 
+  'eager' =>
   array (
     0 => 'Illuminate\\Auth\\AuthServiceProvider',
     1 => 'Illuminate\\Cookie\\CookieServiceProvider',
@@ -46,17 +48,19 @@
     7 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
-    10 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    11 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    12 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    13 => 'Carbon\\Laravel\\ServiceProvider',
-    14 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    15 => 'App\\Providers\\AppServiceProvider',
-    16 => 'App\\Providers\\AuthServiceProvider',
-    17 => 'App\\Providers\\EventServiceProvider',
-    18 => 'App\\Providers\\RouteServiceProvider',
+    10 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    11 => 'Facade\\Ignition\\IgnitionServiceProvider',
+    12 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    13 => 'Fruitcake\\Cors\\CorsServiceProvider',
+    14 => 'Carbon\\Laravel\\ServiceProvider',
+    15 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    16 => 'App\\Providers\\AppServiceProvider',
+    17 => 'App\\Providers\\AuthServiceProvider',
+    18 => 'App\\Providers\\EventServiceProvider',
+    19 => 'App\\Providers\\RouteServiceProvider',
+    20 => 'Barryvdh\\DomPDF\\ServiceProvider',
   ),
-  'deferred' => 
+  'deferred' =>
   array (
     'Illuminate\\Broadcasting\\BroadcastManager' => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
     'Illuminate\\Contracts\\Broadcasting\\Factory' => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
@@ -165,45 +169,45 @@
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
-  'when' => 
+  'when' =>
   array (
-    'Illuminate\\Broadcasting\\BroadcastServiceProvider' => 
+    'Illuminate\\Broadcasting\\BroadcastServiceProvider' =>
     array (
     ),
-    'Illuminate\\Bus\\BusServiceProvider' => 
+    'Illuminate\\Bus\\BusServiceProvider' =>
     array (
     ),
-    'Illuminate\\Cache\\CacheServiceProvider' => 
+    'Illuminate\\Cache\\CacheServiceProvider' =>
     array (
     ),
-    'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider' => 
+    'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider' =>
     array (
     ),
-    'Illuminate\\Hashing\\HashServiceProvider' => 
+    'Illuminate\\Hashing\\HashServiceProvider' =>
     array (
     ),
-    'Illuminate\\Mail\\MailServiceProvider' => 
+    'Illuminate\\Mail\\MailServiceProvider' =>
     array (
     ),
-    'Illuminate\\Pipeline\\PipelineServiceProvider' => 
+    'Illuminate\\Pipeline\\PipelineServiceProvider' =>
     array (
     ),
-    'Illuminate\\Queue\\QueueServiceProvider' => 
+    'Illuminate\\Queue\\QueueServiceProvider' =>
     array (
     ),
-    'Illuminate\\Redis\\RedisServiceProvider' => 
+    'Illuminate\\Redis\\RedisServiceProvider' =>
     array (
     ),
-    'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider' => 
+    'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider' =>
     array (
     ),
-    'Illuminate\\Translation\\TranslationServiceProvider' => 
+    'Illuminate\\Translation\\TranslationServiceProvider' =>
     array (
     ),
-    'Illuminate\\Validation\\ValidationServiceProvider' => 
+    'Illuminate\\Validation\\ValidationServiceProvider' =>
     array (
     ),
-    'Laravel\\Tinker\\TinkerServiceProvider' => 
+    'Laravel\\Tinker\\TinkerServiceProvider' =>
     array (
     ),
   ),

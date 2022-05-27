@@ -56,10 +56,16 @@ Route::post("admin/employees/edit_employee/delete_employee/{profession}/{emp_id}
 Route::get("admin/lines", [CustomAuthController::class, 'lines_index'])->name('lines_index')->middleware('isloggedin');
 Route::post("admin/lines/insert_line", [CustomAuthController::class, 'insert_line'])->name('insert_line')->middleware('isloggedin');
 Route::get("admin/lines/view_lines", [CustomAuthController::class, 'view_lines'])->name('view_lines')->middleware('isloggedin');
+Route::get("admin/lines/{line_id}/view_assigned_trains", [CustomAuthController::class, 'view_assigned_trains'])->name('view_assigned_trains')->middleware('isloggedin');
 Route::get("admin/lines/edit_line_index/{line_id}", [CustomAuthController::class, 'edit_line_index'])->name('edit_line_index')->middleware('isloggedin');
 Route::post("admin/lines/edit_line/{line_id}", [CustomAuthController::class, 'edit_line'])->name('edit_line')->middleware('isloggedin');
 Route::post("admin/lines/edit_line/delete_line/{line_id}", [CustomAuthController::class, 'delete_line'])->name('delete_line')->middleware('isloggedin');
 Route::get("admin/lines/view_lines/search_lines", [CustomAuthController::class, 'search_lines'])->name('search_lines')->middleware('isloggedin');
+Route::get("admin/trips", [CustomAuthController::class, 'trips_index'])->name('trips_index')->middleware('isloggedin');
+Route::post("admin/trips/insert_trip", [CustomAuthController::class, 'insert_trip'])->name('insert_trip')->middleware('isloggedin');
+Route::get("admin/trips/view_trips", [CustomAuthController::class, 'view_trips'])->name('view_trips')->middleware('isloggedin');
+Route::get("admin/trips/view_trips/search_trips", [CustomAuthController::class, 'search_trips'])->name('search_trips')->middleware('isloggedin');
+Route::get("admin/trips/edit_trip_index/{trip_id}", [CustomAuthController::class, 'edit_trip_index'])->name('edit_trip_index')->middleware('isloggedin');
 
 ##USER
 Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout')->middleware('isloggedin_user');
@@ -67,11 +73,20 @@ Route::get("user/", [UserController::class, 'user_login_index'])->name('user_log
 Route::post("user/login", [UserController::class, 'user_login'])->name('login_user')->middleware('alreadyloggedin_user');
 Route::get("user/register_user", [UserController::class, 'user_register_index'])->name('user_register_index');
 Route::post("user/register", [UserController::class, 'user_register'])->name('register_user')->middleware('alreadyloggedin_user');
-Route::get("/", [UserController::class, 'user_index']);
+Route::get("/", [UserController::class, 'user_index'])->name('user_index');
+Route::get("user/book_index", [UserController::class, 'user_book_index'])->name('user_book_index');
+Route::get("user/cancel_trip", [UserController::class, 'user_cancel_trip'])->name('user_cancel_trip');
+Route::get("user/reschedule_trip", [UserController::class, 'user_reschedule_trip'])->name('user_reschedule_trip');
+Route::post("user/show_available_trips", [UserController::class, 'show_available_trips'])->name('show_available_trips');
+Route::get("user/view_booked_trips", [UserController::class, 'user_view_booked_trips'])->name('user_view_booked_trips');
+Route::get("user/checkout", [UserController::class, 'user_checkout'])->name('user_checkout');
+Route::get("user/ticket", [UserController::class, 'generate_ticket'])->name('generate_ticket');
 
 ##EMPLOYEE
 Route::get("employee/", [EmployeeController::class, 'employee_login_index'])->name('employee_login_index')->middleware('alreadyloggedin_employee');
 Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('login_employee')->middleware('alreadyloggedin_employee');
 Route::get("employee/home", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
 Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout')->middleware('isloggedin_employee');
+Route::get("employee/book_index", [EmployeeController::class, 'employee_book_index'])->name('employee_book_index');
+Route::get("employee/ticket", [EmployeeController::class, 'generate_ticket'])->name('generate_ticket');
 

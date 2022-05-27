@@ -15,6 +15,7 @@ class CreateBookedTicketsTable extends Migration
     {
         Schema::create('booked_tickets', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id')->nullable(); ///
             $table->unsignedBigInteger('ticket')->nullable();
             $table->foreign('ticket')->references('id')->on('tickets')->onDelete('set null');
             $table->unsignedBigInteger('trip')->nullable();

@@ -76,7 +76,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/trips")}}">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>
@@ -156,7 +156,7 @@
 
                     <td style="text-align: center">
                         <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                            <a href="{{route('edit_train_index', ['train_id'=>($x->trains->id)])}}">{{$x->trains->number}}</a>
+                            <a href="{{route('edit_train_index', ['train_id'=>($x->trains->id)])}}">{{$x->trains->train_no}}</a>
                         </div>
                     </td>
                     <td style="text-align: center">
@@ -247,7 +247,7 @@
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->number}}</a>
+                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->train_no}}</a>
                             </div>
                         </td>
                         <td style="text-align: center">
@@ -297,7 +297,7 @@
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->number}}</a>
+                                <a href="{{route('edit_train_index', ['train_id'=>($train->id)])}}">{{$train->train_no}}</a>
                             </div>
                         </td>
                         <td style="text-align: center">

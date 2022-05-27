@@ -86,7 +86,7 @@ $captains = Captain::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{url("admin/trips")}}">
                                 <span data-feather="briefcase"></span>
                                 Trips
                             </a>
@@ -150,7 +150,7 @@ $captains = Captain::all();
                     <label for="number" class="form-label">Train number<span
                             class="text-muted">(Required)</span></label>
                     <input type="text" class="form-control" id="number" placeholder="" name="number"
-                           value="{{$train->number}}">
+                           value="{{$train->train_no}}">
                     <span class="text-danger">@error('number') {{$message}} @enderror</span>
                 </div>
 

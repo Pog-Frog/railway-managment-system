@@ -12,6 +12,8 @@ use App\Station;
 use App\Technician;
 use App\Train;
 use App\Line;
+use App\Trip;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -89,7 +91,7 @@ class CustomAuthController extends Controller
     public function insert_train(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:trains|min:3',
+            'train_no' => 'required|unique:trains|min:3',
             'train_model' => 'required',
             'no_of_cars' => 'required',
             'admin' => 'required',
@@ -98,7 +100,7 @@ class CustomAuthController extends Controller
             'status' => 'required'
         ]);
         $train = new Train();
-        $train->number = $request->number;
+        $train->train_no = $request->train_no;
         $train->train_model = $request->train_model;
         $train->no_of_cars = $request->no_of_cars;
         $train->status = $request->status;
@@ -177,13 +179,13 @@ class CustomAuthController extends Controller
             'status' => 'required'
         ]);
         $train = Train::where('id', '=', $request->train_id)->first();
-        $tmp = Train::where('number', '=', $request->number)->first();
+        $tmp = Train::where('train_no', '=', $request->number)->first();
         if ($tmp) {
             if ($tmp->id != $train->id) {
                 return back()->with('fail', 'This number is already registered for another train');
             }
         }
-        $train->number = $request->number;
+        $train->train_no = $request->number;
         $train->train_model = $request->train_model;
         $train->no_of_cars = $request->no_of_cars;
         $train->status = $request->status;
@@ -261,7 +263,7 @@ class CustomAuthController extends Controller
             return view("admin/view_trains", compact('data'));
         }
         $result = Train::query()
-            ->where('number', 'LIKE', "%{$user_query}%")
+            ->where('train_no', 'LIKE', "%{$user_query}%")
             ->orWhere('id', 'LIKE', "%{$user_query}%")
             ->orWhere('status', 'LIKE', "%{$user_query}%")
             ->orWhere('train_model', 'LIKE', "%{$user_query}%")
@@ -417,7 +419,7 @@ class CustomAuthController extends Controller
         }
         $result = Train::query()
             ->whereNotIn('id', $temp_ids)
-            ->where('number', 'LIKE', "%{$user_query}%")
+            ->where('train_no', 'LIKE', "%{$user_query}%")
             ->orWhere('id', 'LIKE', "%{$user_query}%")
             ->orWhere('status', 'LIKE', "%{$user_query}%")
             ->orWhere('train_model', 'LIKE', "%{$user_query}%")
@@ -794,5 +796,61 @@ class CustomAuthController extends Controller
             ->orWhere('destination_station', 'LIKE', "%{$user_query}%")
             ->get();
         return view("admin/view_lines", compact('data', 'result'));
+    }
+
+    public function view_assigned_trains(Request $request){
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $line_id = $request->line_id;
+        $query = Assigned_Trains_for_Lines::query()
+            ->where('line', '=', $line_id)
+            ->get();
+        return view("admin/view_assigned_trains", compact('data', 'query', 'line_id'));
+    }
+
+    public function trips_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/trips_management_index", compact('data'));
+    }
+
+    public function insert_trip(Request $request)
+    {
+        $now = Carbon::now()->timezone('Africa/Cairo');
+        $request->validate([
+            'captain' => 'required|exists:captains,id',
+            'line' => 'required|exists:lines,id',
+            'employee' => 'required|exists:employees,id',
+            'date' => 'required|after:' . $now,
+        ]);
+        $trip = new Trip();
+        $trip->captain = $request->captain;
+        $trip->line = $request->line;
+        $trip->employee = $request->employee;
+        $trip->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
+        $result = $trip->save();
+        if ($result) {
+            return back()->with('success', 'Trip Saved');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function view_trips(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        return view("admin/view_trips", compact('data'));
+    }
+
+    public function edit_trip_index(Request $request)
+    {
+        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $trip_id = $request->trip_id;
+        $trip = Trip::where('id', '=', $trip_id)->first();
+        return view('admin/edit_trip', compact('data', 'trip'));
+    }
+
+    public function search_trips(Request $request)
+    {
+
     }
 }

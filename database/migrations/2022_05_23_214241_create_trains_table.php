@@ -15,7 +15,7 @@ class CreateTrainsTable extends Migration
     {
         Schema::create('trains', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
+            $table->integer('train_no')->unique();
             $table->string('train_model');
             $table->integer('no_of_cars');
             $table->unsignedBigInteger('admin')->nullable();

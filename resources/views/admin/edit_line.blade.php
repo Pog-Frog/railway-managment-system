@@ -173,6 +173,9 @@ $stations = Station::all();
                     <span class="text-danger">@error('destination_station') {{$message}} @enderror</span>
                 </div>
 
+                <div class="col-md-7">
+                    <span><a href="{{route('view_assigned_trains', ['line_id'=>($line->id)])}}">View Assigned Trains</a></span>
+                </div>
                 <button class="w-100 btn btn-outline-primary btn-lg" type="submit">Submit</button>
         </form>
         <form method="POST" action="{{route('delete_line', ['line_id'=>($line->id)])}}">

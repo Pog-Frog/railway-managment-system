@@ -49,7 +49,7 @@
             </div>
         @endif
         <img class="mb-4" src="{{ URL::asset('pics/admin/admin.svg') }}" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal">Hello Employee, please sign in</h1>
         <div class="form-floating">
             <input type="email" class="form-control" placeholder="name@example.com" name="email">
             <label for="floatingInput">Email address</label>
