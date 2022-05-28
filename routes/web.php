@@ -66,6 +66,8 @@ Route::post("admin/trips/insert_trip", [CustomAuthController::class, 'insert_tri
 Route::get("admin/trips/view_trips", [CustomAuthController::class, 'view_trips'])->name('view_trips')->middleware('isloggedin');
 Route::get("admin/trips/view_trips/search_trips", [CustomAuthController::class, 'search_trips'])->name('search_trips')->middleware('isloggedin');
 Route::get("admin/trips/edit_trip_index/{trip_id}", [CustomAuthController::class, 'edit_trip_index'])->name('edit_trip_index')->middleware('isloggedin');
+Route::post("admin/trips/edit_trip/{trip_id}", [CustomAuthController::class, 'edit_trip'])->name('edit_trip')->middleware('isloggedin');
+Route::post("admin/trips/edit_trip/delete_trip/{trip_id}", [CustomAuthController::class, 'delete_trip'])->name('delete_trip')->middleware('isloggedin');
 
 ##USER
 Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout')->middleware('isloggedin_user');

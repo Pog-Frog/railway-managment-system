@@ -15,9 +15,9 @@ use App\Line;
 use App\Trip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Throwable;
 
 class CustomAuthController extends Controller
 {
@@ -32,7 +32,7 @@ class CustomAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|max:12|min:8'
         ]);
-        $user = Admin::where('email', '=', $request->email)->first();
+        $user = Admin::query()->where('email', '=', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
             $request->session()->put('adminID', $user->id);
             return redirect('admin/dashboard');
@@ -69,7 +69,7 @@ class CustomAuthController extends Controller
     {
         $data = array();
         if (session()->has('adminID')) {
-            $data = Admin::where('id', '=', session()->get("adminID"))->first();
+            $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         }
         return view('admin/dashboard', compact('data'));
     }
@@ -84,7 +84,7 @@ class CustomAuthController extends Controller
 
     public function trains_index()
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         return view("admin/trains_management_index", compact('data'));
     }
 
@@ -160,9 +160,9 @@ class CustomAuthController extends Controller
 
     public function edit_train_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $train_id = $request->train_id;
-        $train = Train::where('id', '=', $train_id)->first();
+        $train = Train::query()->where('id', '=', $train_id)->first();
         $assigned_line_for_train = Assigned_Trains_for_Lines::where('train', '=', $train_id)->first();
         return view('admin/edit_train', compact('data', 'train', 'assigned_line_for_train'));
     }
@@ -178,8 +178,8 @@ class CustomAuthController extends Controller
             'captain' => 'required',
             'status' => 'required'
         ]);
-        $train = Train::where('id', '=', $request->train_id)->first();
-        $tmp = Train::where('train_no', '=', $request->number)->first();
+        $train = Train::query()->where('id', '=', $request->train_id)->first();
+        $tmp = Train::query()->where('train_no', '=', $request->number)->first();
         if ($tmp) {
             if ($tmp->id != $train->id) {
                 return back()->with('fail', 'This number is already registered for another train');
@@ -230,11 +230,11 @@ class CustomAuthController extends Controller
 
     public function delete_train(Request $request)
     {
-        $train = Train::where('id', '=', $request->train_id)->first();
-        $assigned_line_for_train = Assigned_Trains_for_Lines::where('train', '=', $request->train_id)->first();
-        $result = $train->delete();
+        $train = Train::query()->where('id', '=', $request->train_id)->first();
+        $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
+        $result = $train->query()->delete();
         if (!empty($assigned_line_for_train)) {
-            $result2 = $assigned_line_for_train->delete();
+            $result2 = $assigned_line_for_train->query()->delete();
             if ($result && $result2) {
                 return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
             } else {
@@ -251,13 +251,13 @@ class CustomAuthController extends Controller
 
     public function view_trains(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         return view("admin/view_trains", compact('data'));
     }
 
     public function search_trains(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $user_query = $request->search_query;
         if ($user_query == null) {
             return view("admin/view_trains", compact('data'));
@@ -270,7 +270,7 @@ class CustomAuthController extends Controller
             ->orWhere('no_of_cars', 'LIKE', "%{$user_query}%")
             ->get();
         if ($result->isEmpty()) {
-            $admin = Admin::where('name', '=', $user_query)->first();
+            $admin = Admin::query()->where('name', '=', $user_query)->first();
             if ($admin) {
                 $result = Train::query()
                     ->where('admin', 'LIKE', "%{$admin->id}%")
@@ -282,7 +282,7 @@ class CustomAuthController extends Controller
 
     public function stations_index()
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         return view("admin/stations_managment_index", compact('data'));
     }
 
@@ -310,9 +310,9 @@ class CustomAuthController extends Controller
 
     public function edit_station_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $station_id = $request->station_id;
-        $station = Station::where('id', '=', $station_id)->first();
+        $station = Station::query()->where('id', '=', $station_id)->first();
         return view('admin/edit_station', compact('data', 'station'));
     }
 
@@ -323,8 +323,8 @@ class CustomAuthController extends Controller
             'city' => 'required',
             'admin' => 'required'
         ]);
-        $station = Station::where('id', '=', $request->station_id)->first();
-        $tmp = Station::where('name', '=', $request->name)->first();
+        $station = Station::query()->where('id', '=', $request->station_id)->first();
+        $tmp = Station::query()->where('name', '=', $request->name)->first();
         if ($tmp) {
             if ($tmp->id != $station->id) {
                 return back()->with('fail', 'This number is already registered for another station');
@@ -347,9 +347,9 @@ class CustomAuthController extends Controller
 
     public function delete_station(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first(); ############
-        $station = Station::where('id', '=', $request->station_id)->first();
-        $result = $station->delete();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first(); ############
+        $station = Station::query()->where('id', '=', $request->station_id)->first();
+        $result = $station->query()->delete();
         if ($result) {
             return redirect('admin/stations/view_stations')->with('success', 'Station Deleted');
         }
@@ -358,13 +358,13 @@ class CustomAuthController extends Controller
 
     public function view_stations(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         return view("admin/view_stations", compact('data'));
     }
 
     public function search_stations(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $user_query = $request->search_query;
         if ($user_query == null) {
             return view("admin/view_stations", compact('data'));
@@ -374,7 +374,7 @@ class CustomAuthController extends Controller
             ->orWhere('city', 'LIKE', "%{$user_query}%")
             ->get();
         if ($result->isEmpty()) {
-            $admin = Admin::where('name', '=', $user_query)->first();
+            $admin = Admin::query()->where('name', '=', $user_query)->first();
             if ($admin) {
                 $result = Station::query()
                     ->where('admin', 'LIKE', "%{$admin->id}%")
@@ -388,7 +388,7 @@ class CustomAuthController extends Controller
     {
         $data = Admin::where('id', '=', session()->get("adminID"))->first();
         $station_id = $request->station_id;
-        $station = Station::where('id', '=', $station_id)->first();
+        $station = Station::query()->where('id', '=', $station_id)->first();
         $can_stop = Can_stop::query()
             ->where('station', '=', $station_id)
             ->get();
@@ -402,9 +402,9 @@ class CustomAuthController extends Controller
 
     public function search_not_allowed_trains(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $station_id = $request->station_id;
-        $station = Station::where('id', '=', $station_id)->first();
+        $station = Station::query()->where('id', '=', $station_id)->first();
         $can_stop = Can_stop::query()
             ->where('station', '=', $station_id)
             ->get();
@@ -455,7 +455,7 @@ class CustomAuthController extends Controller
         $record = Can_stop::query()
             ->where('station', '=', $request->station_id)
             ->where('train', '=', $request->train_id);
-        $result = $record->delete();
+        $result = $record->query()->delete();
         if ($result) {
             return back()->with('remove_success', 'Train removed');
         }
@@ -464,7 +464,7 @@ class CustomAuthController extends Controller
 
     public function employees_index()
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         return view("admin/employees_management_index", compact('data'));
     }
 
@@ -554,7 +554,7 @@ class CustomAuthController extends Controller
 
     public function search_employees(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         if ($request->profession == "captain") {
             $user_query = $request->search_query;
             $result = Captain::query()
@@ -582,8 +582,8 @@ class CustomAuthController extends Controller
 
     public function edit_captain_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        $emp = Captain::where('id', '=', $request->emp_id)->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
+        $emp = Captain::query()->where('id', '=', $request->emp_id)->first();
         $profession = "captain";
         return view('admin/edit_employee', compact('data', 'profession', 'emp'));
 
@@ -591,16 +591,16 @@ class CustomAuthController extends Controller
 
     public function edit_technician_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        $emp = Technician::where('id', '=', $request->emp_id)->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
+        $emp = Technician::query()->where('id', '=', $request->emp_id)->first();
         $profession = "technician";
         return view('admin/edit_employee', compact('data', 'profession', 'emp'));
     }
 
     public function edit_reservation_employee_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        $emp = Employee::where('id', '=', $request->emp_id)->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
+        $emp = Employee::query()->where('id', '=', $request->emp_id)->first();
         $profession = "reservation";
         return view('admin/edit_employee', compact('data', 'profession', 'emp'));
     }
@@ -612,8 +612,8 @@ class CustomAuthController extends Controller
             'email' => 'required'
         ]);
         if ($request->profession == "captain") {
-            $captain = Captain::where('id', '=', $request->emp_id)->first();
-            $tmp = Captain::where('name', '=', $request->name)->first();
+            $captain = Captain::query()->where('id', '=', $request->emp_id)->first();
+            $tmp = Captain::query()->where('name', '=', $request->name)->first();
             if ($tmp) {
                 if ($tmp->id != $captain->id) {
                     return back()->with('fail', 'This name is already registered for another employee');
@@ -628,8 +628,8 @@ class CustomAuthController extends Controller
                 return back()->with('fail', 'Something went wrong');
             }
         } elseif ($request->profession == "technician") {
-            $technician = Technician::where('id', '=', $request->emp_id)->first();
-            $tmp = Technician::where('name', '=', $request->name)->first();
+            $technician = Technician::query()->where('id', '=', $request->emp_id)->first();
+            $tmp = Technician::query()->where('name', '=', $request->name)->first();
             if ($tmp) {
                 if ($tmp->id != $technician->id) {
                     return back()->with('fail', 'This name is already registered for another employee');
@@ -644,7 +644,7 @@ class CustomAuthController extends Controller
                 return back()->with('fail', 'Something went wrong');
             }
         } else {
-            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
+            $reservation_emp = Employee::query()->where('id', '=', $request->emp_id)->first();
             $tmp = Employee::where('name', '=', $request->name)->first();
             if ($tmp) {
                 if ($tmp->id != $reservation_emp->id) {
@@ -667,19 +667,19 @@ class CustomAuthController extends Controller
         $rand_pass = Str::random(12);
         $subject = "Password Notification";
         if ($request->profession == "captain") {
-            $captain = Captain::where('id', '=', $request->emp_id)->first();
+            $captain = Captain::query()->where('id', '=', $request->emp_id)->first();
             $captain->password = Hash::make($rand_pass);
             $result = $captain->save();
             $details = ['title' => 'Admin notification @railway MS', 'name' => $captain->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
             \Mail::to($captain->email)->send(new AdminEmail($details, $subject));
         } elseif ($request->profession == "technician") {
-            $technician = Technician::where('id', '=', $request->emp_id)->first();
+            $technician = Technician::query()->where('id', '=', $request->emp_id)->first();
             $technician->password = Hash::make($rand_pass);
             $result = $technician->save();
             $details = ['title' => 'Admin notification @railway MS', 'name' => $technician->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
             \Mail::to($technician->email)->send(new AdminEmail($details, $subject));
         } else {
-            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
+            $reservation_emp = Employee::query()->where('id', '=', $request->emp_id)->first();
             $reservation_emp->password = Hash::make($rand_pass);
             $result = $reservation_emp->save();
             $details = ['title' => 'Admin notification @railway MS', 'name' => $reservation_emp->name, 'body' => 'This email contains your newly generated password for your work account', 'content' => $rand_pass];
@@ -695,14 +695,14 @@ class CustomAuthController extends Controller
     public function delete_employee(Request $request)
     {
         if ($request->profession == "captain") {
-            $captain = Captain::where('id', '=', $request->emp_id)->first();
-            $result = $captain->delete();
+            $captain = Captain::query()->where('id', '=', $request->emp_id)->first();
+            $result = $captain->query()->delete();
         } elseif ($request->profession == "technician") {
-            $technician = Technician::where('id', '=', $request->emp_id)->first();
-            $result = $technician->delete();
+            $technician = Technician::query()->where('id', '=', $request->emp_id)->first();
+            $result = $technician->query()->delete();
         } else {
-            $reservation_emp = Employee::where('id', '=', $request->emp_id)->first();
-            $result = $reservation_emp->delete();
+            $reservation_emp = Employee::query()->where('id', '=', $request->emp_id)->first();
+            $result = $reservation_emp->query()->delete();
         }
         if ($result) {
             return redirect('admin/employees/view_employees')->with('success', 'Employee Deleted');
@@ -772,8 +772,8 @@ class CustomAuthController extends Controller
 
     public function delete_line(Request $request)
     {
-        $line = Line::where('id', '=', $request->line_id)->first();
-        $result = $line->delete();
+        $line = Line::query()->where('id', '=', $request->line_id)->first();
+        $result = $line->query()->delete();
         if ($result) {
             return redirect('admin/lines/view_lines')->with('success', 'Line Deleted');
         }
@@ -798,8 +798,9 @@ class CustomAuthController extends Controller
         return view("admin/view_lines", compact('data', 'result'));
     }
 
-    public function view_assigned_trains(Request $request){
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+    public function view_assigned_trains(Request $request)
+    {
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $line_id = $request->line_id;
         $query = Assigned_Trains_for_Lines::query()
             ->where('line', '=', $line_id)
@@ -835,22 +836,121 @@ class CustomAuthController extends Controller
         }
     }
 
-    public function view_trips(Request $request)
-    {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
-        return view("admin/view_trips", compact('data'));
-    }
-
     public function edit_trip_index(Request $request)
     {
-        $data = Admin::where('id', '=', session()->get("adminID"))->first();
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
         $trip_id = $request->trip_id;
         $trip = Trip::where('id', '=', $trip_id)->first();
         return view('admin/edit_trip', compact('data', 'trip'));
     }
 
+    public function edit_trip(Request $request)
+    {
+        $now = Carbon::now()->timezone('Africa/Cairo');
+        $request->validate([
+            'captain' => 'required|exists:captains,id',
+            'line' => 'required|exists:lines,id',
+            'employee' => 'required|exists:employees,id',
+            'date' => 'required|after:' . $now,
+        ]);
+        $trip = Trip::query()->where('id', '=', $request->trip_id)->first();
+        $trip->captain = $request->captain;
+        $trip->line = $request->line;
+        $trip->employee = $request->employee;
+        $trip->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
+        $result = $trip->save();
+        if ($result) {
+            return back()->with('success', 'Trip Saved');
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    public function delete_trip(Request $request)
+    {
+        $trip = Trip::query()->where('id', '=', $request->trip_id)->first();
+        $result = $trip->query()->delete();
+        if ($result) {
+            return redirect('admin/trips/view_trips')->with('success', 'Trip Deleted');
+        }
+        return redirect('admin/trips/view_trips')->with('fail', 'Something went wrong');
+    }
+
+    public function view_trips(Request $request)
+    {
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
+        return view("admin/view_trips", compact('data'));
+    }
+
     public function search_trips(Request $request)
     {
+        $data = Admin::query()->where('id', '=', session()->get("adminID"))->first();
+        $user_query = $request->search_query;
+        try {
+            $date = Carbon::parse($user_query)->format('Y-m-d');
+        } catch (Throwable $e) {
+            $date = null;
+        }
+        $result = Trip::query()
+            ->where('line', '=', $user_query)
+            ->get();
+        $trip_tmp = [];
+        foreach ($result as $x) {
+            $trip_tmp[] = $x->id;
+        }
 
+        $captains = Captain::query()
+            ->where('name', 'LIKE', "%{$user_query}%")
+            ->get();
+        $temp_ids = [];
+        foreach ($captains as $x) {
+            $temp_ids[] = $x->id;
+        }
+        $result1 = Trip::query()
+            ->whereNotIn('id', $trip_tmp)
+            ->whereIn('captain', $temp_ids)
+            ->get();
+        $trip_tmp1 = [];
+        foreach ($result1 as $x) {
+            $trip_tmp1[] = $x->id;
+        }
+
+        $employees = Employee::query()
+            ->where('name', 'LIKE', "%{$user_query}%")
+            ->get();
+        $temp_ids = [];
+        foreach ($employees as $x) {
+            $temp_ids[] = $x->id;
+        }
+        $result2 = Trip::query()
+            ->whereNotIn('id', $trip_tmp)
+            ->whereNotIn('id', $trip_tmp1)
+            ->whereIn('employee', $temp_ids)
+            ->get();
+        $trip_tmp2 = [];
+        foreach ($result2 as $x) {
+            $trip_tmp2[] = $x->id;
+        }
+
+        $result3 = Trip::query()
+            ->whereNotIn('id', $trip_tmp)
+            ->whereNotIn('id', $trip_tmp1)
+            ->whereNotIn('id', $trip_tmp2)
+            ->whereDate('date', '=', $date)
+            ->get();
+        $trip_tmp3 = [];
+        foreach ($result3 as $x) {
+            $trip_tmp3[] = $x->id;
+        }
+
+        $result4 = Trip::query()
+            ->whereNotIn('id', $trip_tmp)
+            ->whereNotIn('id', $trip_tmp1)
+            ->whereNotIn('id', $trip_tmp2)
+            ->whereNotIn('id', $trip_tmp3)
+            ->where('id', '=', $user_query)
+            ->get();
+
+        return view("admin/view_trips", compact('data', 'result', 'result1', 'result2', 'result3', 'result4'));
     }
 }

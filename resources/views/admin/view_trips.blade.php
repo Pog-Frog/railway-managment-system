@@ -123,11 +123,11 @@ $trips = Trip::all();
 </head>
 <body>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <form method="get" action="{{route("search_trains")}}">
+    <form method="get" action="{{route("search_trips")}}">
         @csrf
         <div class="input-group p-2">
             <input type="search" class="form-control rounded"
-                   placeholder="Search by number, type, number of cars, ID, status, line, captain" aria-label="Search"
+                   placeholder="Search by ID, date, captain, employee, line number" aria-label="Search"
                    name="search_query" aria-describedby="search-addon"/>
             <button type="submit" class="btn btn-outline-primary">search</button>
         </div>
@@ -156,41 +156,187 @@ $trips = Trip::all();
             </thead>
 
             <tbody>
-            @if(isset($result))
-                @foreach($result as $trip)
-                    <tr>
-                        <td style="text-align: center">
-                            <input type="type"
-                                   style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
-                                   name="train_id" value="{{$trip->id}}" disabled>
-                        </td>
+            @if(isset($result) || isset($result1) || isset($result2) || isset($result3) || isset($result4))
+                @if(isset($result))
+                    @foreach($result as $trip)
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="type"
+                                       style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                       name="train_id" value="{{$trip->id}}" disabled>
+                            </td>
 
-                        <td style="text-align: center">
-                            <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
+                            <td style="text-align: center">
+                                <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
 
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
-                            </div>
-                        </td>
-                        <td style="text-align: center">
-                            <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
-                        </td>
-                    </tr>
-                @endforeach
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @if(isset($result1))
+                    @foreach($result1 as $trip)
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="type"
+                                       style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                       name="train_id" value="{{$trip->id}}" disabled>
+                            </td>
+
+                            <td style="text-align: center">
+                                <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
+
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @if(isset($result2))
+                    @foreach($result2 as $trip)
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="type"
+                                       style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                       name="train_id" value="{{$trip->id}}" disabled>
+                            </td>
+
+                            <td style="text-align: center">
+                                <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
+
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @if(isset($result3))
+                    @foreach($result3 as $trip)
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="type"
+                                       style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                       name="train_id" value="{{$trip->id}}" disabled>
+                            </td>
+
+                            <td style="text-align: center">
+                                <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
+
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @if(isset($result4))
+                    @foreach($result4 as $trip)
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="type"
+                                       style="max-width: 50px; max-height: 100px;overflow-y: auto; text-align: center;"
+                                       name="train_id" value="{{$trip->id}}" disabled>
+                            </td>
+
+                            <td style="text-align: center">
+                                <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
+
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
+                                    {{date('Y/m/d h:i:s a', strtotime($trip->date))}}
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{route('edit_trip_index', ['trip_id'=>($trip->id)])}}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             @else
                 @foreach($trips as $trip)
                     <tr>
