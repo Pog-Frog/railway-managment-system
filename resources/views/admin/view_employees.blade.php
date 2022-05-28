@@ -19,7 +19,7 @@ $technicians = DB::table('technicians')->get();
 
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url('styles/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url('styles/admin/bootstrap.min.css') }}" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -346,8 +346,8 @@ $technicians = DB::table('technicians')->get();
 </main>
 </body>
 
-<script src="{{ url('/js/jquery.min.js') }}"></script>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
-<script src="{{ url('/js/feather.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/jquery.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/bootstrap.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>

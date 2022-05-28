@@ -8,13 +8,13 @@
     <meta name="generator" content="Hugo 0.88.1">
     <title>Dashboard Template · Bootstrap v5.1</title>
 
-    <script src="{{ url('/js/popper.min.js') }}"></script>
-    <script src="{{ url('/js/solid.min.js') }}"></script>
-    <script src="{{ url('/js/fontawesome.min.js') }}"></script>
-    <script src="{{ url('/js/tempus-dominus.js') }}"></script>
+    <script src="{{ url('/scripts/admin/popper.min.js') }}"></script>
+    <script src="{{ url('/scripts/admin/solid.min.js') }}"></script>
+    <script src="{{ url('/scripts/admin/fontawesome.min.js') }}"></script>
+    <script src="{{ url('/scripts/admin/tempus-dominus.js') }}"></script>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url('styles/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url('styles/admin/bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -34,7 +34,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ url('styles/admin/dashboard.css') }}" rel="stylesheet">
-    <link href="{{ url('styles/tempus-dominus.css') }}" rel="stylesheet">
+    <link href="{{ url('styles/admin/tempus-dominus.css') }}" rel="stylesheet">
 
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0  shadow">
         <a class="navbar-brand col-md-3 position-sticky col-lg-2 me-0 px-3"
@@ -128,8 +128,8 @@
 @endif
 </body>
 
-<script src="{{ url('/js/jquery.min.js') }}"></script>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
-<script src="{{ url('/js/feather.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/jquery.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/bootstrap.min.js') }}"></script>
+<script src="{{ url('/scripts/admin/feather.min.js') }}"></script>
 <script src="{{ url('/scripts/admin/dashboard.js') }}"></script>
 </html>
