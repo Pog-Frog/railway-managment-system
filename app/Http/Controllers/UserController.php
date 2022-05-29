@@ -159,6 +159,7 @@ class UserController extends Controller
         return view("user/checkout");
     }
 
+    ## I commented out this function because it's not working/causing errors
     /*
     public function user_seat(Request $req){
 

@@ -168,18 +168,25 @@ $trips = Trip::all();
 
                             <td style="text-align: center">
                                 <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @if(!is_null($trip->captains))
+                                        <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @if(!is_null($trip->employees))
+                                        <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                     <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
-
                                 </div>
                             </td>
                             <td style="text-align: center">
@@ -204,18 +211,25 @@ $trips = Trip::all();
 
                             <td style="text-align: center">
                                 <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @if(!is_null($trip->captains))
+                                        <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @if(!is_null($trip->employees))
+                                        <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                     <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
-
                                 </div>
                             </td>
                             <td style="text-align: center">
@@ -240,18 +254,25 @@ $trips = Trip::all();
 
                             <td style="text-align: center">
                                 <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @if(!is_null($trip->captains))
+                                        <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @if(!is_null($trip->employees))
+                                        <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                     <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
-
                                 </div>
                             </td>
                             <td style="text-align: center">
@@ -276,18 +297,25 @@ $trips = Trip::all();
 
                             <td style="text-align: center">
                                 <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @if(!is_null($trip->captains))
+                                        <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @if(!is_null($trip->employees))
+                                        <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                     <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
-
                                 </div>
                             </td>
                             <td style="text-align: center">
@@ -312,12 +340,20 @@ $trips = Trip::all();
 
                             <td style="text-align: center">
                                 <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @if(!is_null($trip->captains))
+                                        <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
                                 <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @if(!is_null($trip->employees))
+                                        <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                    @else
+                                        {{"not assigned"}}
+                                    @endif
                                 </div>
                             </td>
                             <td style="text-align: center">
@@ -348,18 +384,25 @@ $trips = Trip::all();
 
                         <td style="text-align: center">
                             <div style="max-width: 500px;max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                @if(!is_null($trip->captains))
+                                    <a href="{{route('edit_captain_index', ['emp_id'=>($trip->captains->id)])}}">{{$trip->captains->name}}</a>
+                                @else
+                                    {{"not assigned"}}
+                                @endif
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                                <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                @if(!is_null($trip->employees))
+                                    <a href="{{route('edit_reservation_employee_index', ['emp_id'=>($trip->employees->id)])}}">{{$trip->employees->name}}</a>
+                                @else
+                                    {{"not assigned"}}
+                                @endif
                             </div>
                         </td>
                         <td style="text-align: center">
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                 <a href="{{route('edit_line_index', ['line_id'=>($trip->lines->id)])}}">No. {{$trip->lines->id}}</a>
-
                             </div>
                         </td>
                         <td style="text-align: center">

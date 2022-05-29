@@ -91,9 +91,9 @@ class CustomAuthController extends Controller
     public function insert_train(Request $request)
     {
         $request->validate([
-            'train_no' => 'required|unique:trains|min:3',
+            'train_no' => 'required|unique:trains|min:3|numeric',
             'train_model' => 'required',
-            'no_of_cars' => 'required',
+            'no_of_cars' => 'required|numeric',
             'admin' => 'required',
             'line' => 'required',
             'captain' => 'required',
@@ -172,7 +172,7 @@ class CustomAuthController extends Controller
         $request->validate([
             'number' => 'required|min:3',
             'train_model' => 'required',
-            'no_of_cars' => 'required',
+            'no_of_cars' => 'required|numeric',
             'admin' => 'required',
             'line' => 'required',
             'captain' => 'required',
@@ -232,9 +232,9 @@ class CustomAuthController extends Controller
     {
         $train = Train::query()->where('id', '=', $request->train_id)->first();
         $assigned_line_for_train = Assigned_Trains_for_Lines::query()->where('train', '=', $request->train_id)->first();
-        $result = $train->query()->delete();
+        $result = $train->delete();
         if (!empty($assigned_line_for_train)) {
-            $result2 = $assigned_line_for_train->query()->delete();
+            $result2 = $assigned_line_for_train->delete();
             if ($result && $result2) {
                 return redirect('admin/trains/view_trains')->with('success', 'Train Deleted');
             } else {
@@ -327,8 +327,24 @@ class CustomAuthController extends Controller
         $tmp = Station::query()->where('name', '=', $request->name)->first();
         if ($tmp) {
             if ($tmp->id != $station->id) {
-                return back()->with('fail', 'This number is already registered for another station');
+                return back()->with('fail', 'This name is already registered for another station');
             }
+        }
+        $line_arrival_check = Line::query()->where('source_station', '=',$station->name)->get();
+        $line_destination_check = Line::query()->where('destination_station', '=',$station->name)->get();
+        if($line_arrival_check->isNotEmpty()){
+            $to_be_updated = [];
+            foreach ($line_arrival_check as $x) {
+                $to_be_updated[] = $x->id;
+            }
+            Line::query()->whereIn('id', $to_be_updated)->update(['source_station' => $request->name]);
+        }
+        if($line_destination_check->isNotEmpty()){
+            $to_be_updated = [];
+            foreach ($line_destination_check as $x) {
+                $to_be_updated[] = $x->id;
+            }
+            Line::query()->whereIn('id', $to_be_updated)->update(['destination_station' => $request->name]);
         }
         $station->name = $request->name;
         $station->city = $request->city;
@@ -349,7 +365,16 @@ class CustomAuthController extends Controller
     {
         $data = Admin::query()->where('id', '=', session()->get("adminID"))->first(); ############
         $station = Station::query()->where('id', '=', $request->station_id)->first();
-        $result = $station->query()->delete();
+        $line_arrival_check = Line::query()->where('source_station', '=',$station->name)->first();
+        $line_destination_check = Line::query()->where('destination_station', '=',$station->name)->first();
+        if($line_arrival_check){
+            return back()->with('fail', 'Cannot delete station because its register as source station for line No.'.$line_arrival_check->id);
+        }
+        if($line_destination_check){
+            return back()->with('fail', 'Cannot delete station because its register as destination station for line No.'.$line_destination_check->id);
+        }
+        Can_stop::query()->where('station', '=', $station->name)->delete();
+        $result = $station->delete();
         if ($result) {
             return redirect('admin/stations/view_stations')->with('success', 'Station Deleted');
         }
@@ -455,7 +480,7 @@ class CustomAuthController extends Controller
         $record = Can_stop::query()
             ->where('station', '=', $request->station_id)
             ->where('train', '=', $request->train_id);
-        $result = $record->query()->delete();
+        $result = $record->delete();
         if ($result) {
             return back()->with('remove_success', 'Train removed');
         }
@@ -696,13 +721,13 @@ class CustomAuthController extends Controller
     {
         if ($request->profession == "captain") {
             $captain = Captain::query()->where('id', '=', $request->emp_id)->first();
-            $result = $captain->query()->delete();
+            $result = $captain->delete();
         } elseif ($request->profession == "technician") {
             $technician = Technician::query()->where('id', '=', $request->emp_id)->first();
-            $result = $technician->query()->delete();
+            $result = $technician->delete();
         } else {
             $reservation_emp = Employee::query()->where('id', '=', $request->emp_id)->first();
-            $result = $reservation_emp->query()->delete();
+            $result = $reservation_emp->delete();
         }
         if ($result) {
             return redirect('admin/employees/view_employees')->with('success', 'Employee Deleted');
@@ -727,6 +752,12 @@ class CustomAuthController extends Controller
         }
         if ($request->source_station == "null" || $request->destination_station == "null") {
             return back()->with('fail', 'The Source station or the Destination station cannot be empty (None)');
+        }
+        $exist_check = Line::query()->where('source_station', '=', $request->source_station)
+                        ->where('destination_station', '=', $request->destination_station)
+                        ->first();
+        if($exist_check){
+            return back()->with('fail', 'A line already exists with the same source station and the same destination station');
         }
         $line = new Line();
         $line->source_station = $request->source_station;
@@ -773,7 +804,11 @@ class CustomAuthController extends Controller
     public function delete_line(Request $request)
     {
         $line = Line::query()->where('id', '=', $request->line_id)->first();
-        $result = $line->query()->delete();
+        $trip_line_check = Trip::query()->where('line','=',$line->id)->first();
+        if($trip_line_check){
+            return back()->with('fail', 'cannot delete line because its assigned to trip No.'.$trip_line_check->id);
+        }
+        $result = $line->delete();
         if ($result) {
             return redirect('admin/lines/view_lines')->with('success', 'Line Deleted');
         }
@@ -869,7 +904,7 @@ class CustomAuthController extends Controller
     public function delete_trip(Request $request)
     {
         $trip = Trip::query()->where('id', '=', $request->trip_id)->first();
-        $result = $trip->query()->delete();
+        $result = $trip->delete();
         if ($result) {
             return redirect('admin/trips/view_trips')->with('success', 'Trip Deleted');
         }
