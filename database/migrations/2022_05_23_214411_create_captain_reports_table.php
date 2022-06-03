@@ -18,6 +18,8 @@ class CreateCaptainReportsTable extends Migration
             $table->dateTime('date');
             $table->unsignedBigInteger('captain')->nullable();
             $table->foreign('captain')->references('id')->on('captains')->onDelete('set null');
+            $table->unsignedBigInteger('tech')->nullable(); ///
+            $table->foreign('tech')->references('id')->on('technicians')->onDelete('set null'); ///
             $table->unsignedBigInteger('train')->nullable();
             $table->foreign('train')->references('id')->on('trains')->onDelete('set null');
             $table->unsignedBigInteger('report')->nullable();

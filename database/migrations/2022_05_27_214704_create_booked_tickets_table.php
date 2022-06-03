@@ -15,11 +15,9 @@ class CreateBookedTicketsTable extends Migration
     {
         Schema::create('booked_tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable(); ///
-            $table->unsignedBigInteger('ticket')->nullable();
-            $table->foreign('ticket')->references('id')->on('tickets')->onDelete('set null');
-            $table->unsignedBigInteger('trip')->nullable();
-            $table->foreign('trip')->references('id')->on('trips')->onDelete('set null');
+            $table->string('user_id')->nullable();
+            $table->unsignedBigInteger('stops_station')->nullable();
+            $table->foreign('stops_station')->references('id')->on('stops_stations')->onDelete('set null');
             $table->unsignedBigInteger('seat')->nullable();
             $table->foreign('seat')->references('id')->on('seats')->onDelete('set null');
             $table->timestamps();
