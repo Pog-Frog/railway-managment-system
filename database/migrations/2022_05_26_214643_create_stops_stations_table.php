@@ -24,7 +24,7 @@ class CreateStopsStationsTable extends Migration
             $table->time('scheduled_departure_time');
             $table->time('scheduled_arrival_time');
             $table->date('date');
-            $table->date('price');
+            $table->string('price');
             $table->timestamps();
         });
     }
