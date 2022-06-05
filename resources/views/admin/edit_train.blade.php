@@ -16,7 +16,7 @@ $captains = Captain::all();
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Dashboard Template · Bootstrap v5.1</title>
+    <title>Railway Management System</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -92,17 +92,12 @@ $captains = Captain::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{url("admin/customers")}}">
                                 <span data-feather="users"></span>
                                 Customer accounts
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="bar-chart-2"></span>
-                                Reports
-                            </a>
-                        </li>
+
                     </ul>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Management tools</span>
@@ -150,7 +145,7 @@ $captains = Captain::all();
                     <label for="number" class="form-label">Train number<span
                             class="text-muted">(Required)</span></label>
                     <input type="text" class="form-control" id="number" placeholder="" name="number"
-                           value="{{$train->train_no}}">
+                           value="{{$train->train_no}}" disabled>
                     <span class="text-danger">@error('number') {{$message}} @enderror</span>
                 </div>
 

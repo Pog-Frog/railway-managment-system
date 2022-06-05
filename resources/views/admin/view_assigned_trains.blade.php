@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Dashboard Template · Bootstrap v5.1</title>
+    <title>Railway Management System</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -82,17 +82,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{url("admin/customers")}}">
                                 <span data-feather="users"></span>
                                 Customer accounts
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="bar-chart-2"></span>
-                                Reports
-                            </a>
-                        </li>
+
                     </ul>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Management tools</span>
@@ -121,7 +116,7 @@
     <div style="overflow-x: auto;" class="p-3 my-3 border rounded">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h5">Assinged Trains for Line No. {{$line_id}}</h1>
+            <h1 class="h5">Assigned Trains for Line No. {{$line_id}}</h1>
         </div>
         @if(Session::has('success'))
             <div class="alert-success">{{Session::get('success')}}
@@ -142,7 +137,7 @@
                 <th scope="col" style="text-align: center">admin</th>
                 <th scope="col" style="text-align: center">captain</th>
                 <th scope="col" style="text-align: center">status</th>
-                <th scope="col" style="text-align: center">updated at</th>
+                <th scope="col" style="text-align: center">manage schedule</th>
                 <th scope="col" style="text-align: center">edit</th>
             </tr>
             </thead>
@@ -198,7 +193,7 @@
                     </td>
                     <td style="text-align: center">
                         <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
-                            {{$record->trains->updated_at}}
+                            <a href="{{route('manage_train_schedules', ['line_id'=>($line_id), 'train_id'=>($record->trains->id)])}}">manage</a>
                         </div>
                     </td>
                     <td style="text-align: center">

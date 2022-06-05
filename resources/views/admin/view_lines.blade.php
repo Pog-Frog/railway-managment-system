@@ -13,7 +13,7 @@ $lines = Line::all();
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Dashboard Template · Bootstrap v5.1</title>
+    <title>Railway Management System</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -89,17 +89,12 @@ $lines = Line::all();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{url("admin/customers")}}">
                                 <span data-feather="users"></span>
                                 Customer accounts
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="bar-chart-2"></span>
-                                Reports
-                            </a>
-                        </li>
+
                     </ul>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Management tools</span>
@@ -185,6 +180,9 @@ $lines = Line::all();
                             <div style="max-width: 300px; max-height: 100px;overflow-y: auto;">
                                 {{$x->updated_at}}
                             </div>
+                        </td>
+                        <td style="text-align: center">
+                            <a href="{{route('view_assigned_trains', ['line_id'=>($x->id)])}}">view</a>
                         </td>
                         <td style="text-align: center">
                             <a href="{{route('edit_line_index', ['line_id'=>($x->id)])}}">Edit</a>

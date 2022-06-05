@@ -52,7 +52,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function generate_ticket()
+    public function generate_ticket_employee()
     {
 
         $employeeId = session()->get('loginID');

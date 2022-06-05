@@ -60,12 +60,6 @@
             <label for="floatingPassword">Password</label>
             <span class="text-danger">@error('password') {{$message}} @enderror</span>
         </div>
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
 </main>
