@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'alreadyloggedin' => \App\Http\Middleware\Alreadyloggedin::class,
         'alreadyloggedin_user' => \App\Http\Middleware\Alreadyloggedin_user::class,
         'alreadyloggedin_employee' => \App\Http\Middleware\Alreadyloggedin_employee::class,
+        'alreadyloggedin_captain' => \App\Http\Middleware\alreadyloggedin_captain::class,
+        'isloggedin_captain' => \App\Http\Middleware\isloggedin_captain::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

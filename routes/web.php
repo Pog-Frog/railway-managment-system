@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController; ## Admin Controller
 use App\Http\Controllers\UserController; ## Users Controller
 use App\Http\Controllers\EmployeeController; ##employee Controller
+use App\Http\Controllers\CaptainController; ##captain Controller 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -106,5 +108,16 @@ Route::post("employee/login", [EmployeeController::class, 'employee_login'])->na
 Route::get("employee/home", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
 Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout_employee')->middleware('isloggedin_employee');
 Route::get("employee/book_index", [EmployeeController::class, 'employee_book_index'])->name('employee_book_index');
+Route::get("employee/show_available_trips", [EmployeeController::class, 'show_available_trips'])->name('show_available_trips');
+Route::get("employee/checkout", [EmployeeController::class, 'employee_checkout'])->name('employee_checkout');
 Route::get("employee/ticket", [EmployeeController::class, 'generate_ticket_employee'])->name('generate_ticket_employee');
 
+##CAPTAIN   
+Route::get("captain/", [CaptainController::class, 'captain_login_index'])->name('captain_login_index')->middleware('alreadyloggedin_captain');
+Route::post("captain/login", [CaptainController::class, 'captain_login'])->name('login_captain')->middleware('alreadyloggedin_captain');
+Route::get("captain/home", [CaptainController::class, 'captain_index'])->middleware('isloggedin_captain');
+Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name('logout')->middleware('isloggedin_captain');
+//Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name('logout')->middleware('isloggedin_captain');
+Route::get('captainReport', function () {
+    return view('captain/captainReport');
+});
