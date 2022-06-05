@@ -241,7 +241,6 @@ h2{
             <td>{{$row['scheduled_departure_time']}}</td>
             <td>{{$row['date']}}</td>
             <td>
-
                 <form method="POST" action="{{route('user_checkout', ['stops_id'=>($row['id'])])}}">
                 @csrf
                 <div class="col text-center">
@@ -251,8 +250,9 @@ h2{
                 </div>
                 </form>
             </td>
-            </tr>
-        @endforeach
+        </tr>
+            @endforeach
+
 
 
         <tbody>

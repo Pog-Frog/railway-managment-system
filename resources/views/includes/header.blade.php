@@ -83,7 +83,9 @@
 
 
 
-							<li><a href="todaytrip.blade.php">Today`s Trips</a></li>
+							<li><a href="{{route('today_trips')}}">Today`s Trips</a></li>
+                            <li><a href="{{route('user_contact')}}">Contact Us</a></li>
+
 
                             @if(session()->has('loginID'))
 
@@ -93,7 +95,7 @@
 								<ul class="fh5co-sub-menu">
 								<li><a href="{{route('user_book_index')}}">Book A Trip</a></li>
 									<li><a href="{{route('user_view_booked_trips')}}">View Booked Trips</a></li>
-									<li><a href="{{route('user_cancel_trip')}}">Cancel A Trip</a></li>
+
 									<li><a href="{{route('user_reschedule_trip')}}">Reschudle A Trip</a></li>
 
 								</ul>

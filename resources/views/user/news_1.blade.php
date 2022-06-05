@@ -60,7 +60,6 @@
 
 	<link rel="stylesheet" href=" {{ URL::asset('css/style.css') }}">
 
-
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<!-- FOR IE9 below -->
@@ -71,47 +70,43 @@
 	</head>
 
     <body>
-    <footer>
-			<div id="footer">
-				<div class="container">
-					<div class="row row-bottom-padded-md">
-						<div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-							<h3>About Egypt Railway</h3>
-							<p> Egyptian National Railways is considered to be the first railway lines established in Africa and the Middle East, and the second in the world after the United Kingdom, where construction began in 1834, when the railway tracks were actually extended to Suez-Alexandria line.</p>
-						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-							<h3>Quick Links</h3>
-							<ul>
-								<li><a href="{{route('user_book_index')}}">Search For A trip</a></li>
-								<li><a href="{{route('user_contact')}}">Contact Us</a></li>
-								<li><a href="{{route('user_register_index')}}">Register</a></li>
-								<li><a href="{{route('user_login_index')}}">LogIn</a></li>
-								<li><a href="{{route('logout')}}">LogOut</a></li>
+		<div id="fh5co-wrapper">
+		<div id="fh5co-page">
 
-							</ul>
-						</div>
+		@include('includes.header')
+
+		<!-- end:header-top -->
+
+		<div class="fh5co-hero" style="background-image: url(/pics/user/railway.jpg);">
+
+
+			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: {{ URL::asset('pics/user/railway.jpg') }}">
+
+
+			@include('includes.news1')
+            </div>
 
 
 
 
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 text-center">
-							<p class="fh5co-social-icons">
-								<a href="#"><i class="icon-twitter2"></i></a>
-								<a href="#"><i class="icon-facebook2"></i></a>
-								<a href="#"><i class="icon-instagram"></i></a>
-								<a href="#"><i class="icon-dribbble2"></i></a>
-								<a href="#"><i class="icon-youtube"></i></a>
-							</p>
-							<p>Copyright 2022 All Rights Reserved  <br>Egypt Railway </p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
 
-        <!-- jQuery -->
+
+		</div>
+
+
+
+
+		@include('includes.footer')
+
+
+
+	</div>
+	<!-- END fh5co-page -->
+
+	</div>
+	<!-- END fh5co-wrapper -->
+
+	<!-- jQuery -->
 
 
 	<script src="js/jquery.min.js"></script>
@@ -140,7 +135,8 @@
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
 
+	</body>
+</html>
 
 
-    </body>
-    </html>
+

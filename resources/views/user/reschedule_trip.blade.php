@@ -210,34 +210,47 @@ h2{
 
 		<!-- end:header-top -->
 
+
+
 		<div class="fh5co-hero" style="background-image: url(/pics/user/railway.jpg);">
 
 
 			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: {{ URL::asset('pics/user/railway.jpg') }}">
-				<br><br><br>
 
-<div class="table-wrapper">
+			<div class="table-wrapper">
     <table class="fl-table">
         <thead>
         <tr>
 
-            <th>TicketNo</th>
-            <th>TripNo</th>
-            <th>SeatNo</th>
-            <th>Reschdule</th>
-            <th>Cancel</th>
+            <th>source</th>
+            <th>Destination</th>
+            <th>Date</th>
+            <th>scheduled_arrival_time</th>
+            <th>scheduled_departure_time</th>
+
+            <th>reschudle</th>
+
 
         </tr>
         </thead>
         <tbody>
 
+        <tr>
 
+            <td>{{$stops_station->source_station}}</td>
+            <td>{{$stops_station->destination_station}}</td>
+            <td>{{$stops_station->date}}</td>
+            <td>{{$stops_station['scheduled_arrival_time']}}</td>
+            <td>{{$stops_station['scheduled_departure_time']}}</td>
+
+            <td><a class="btn btn-success" href="{{route('user_book_index')}}">Cancel And Search For New Trip</a></td>
+
+        </tr>
 
 
         <tbody>
     </table>
 </div>
-
 
 
 

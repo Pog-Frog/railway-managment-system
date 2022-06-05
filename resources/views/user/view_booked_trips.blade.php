@@ -220,9 +220,12 @@ h2{
     <table class="fl-table">
         <thead>
         <tr>
-            <th>Ticket Number</th>
-            <th>Seat Number</th>
-            <th>user_id</th>
+
+            <th>source</th>
+            <th>Destination</th>
+            <th>scheduled_arrival_time</th>
+            <th>scheduled_departure_time</th>
+            <th>date</th>
             <th>Cancel</th>
             <th>reschudle</th>
 
@@ -230,18 +233,21 @@ h2{
         </tr>
         </thead>
         <tbody>
-        @foreach( $book as $row)
+
         <tr>
 
-            <td>{{$row['ticket']}}</td>
-            <td>{{$row['seat']}}</td>
-            <td>{{$row['user_id']}}</td>
+            <td>{{$stops_station->source_station}}</td>
+            <td>{{$stops_station->destination_station}}</td>
+            <td>{{$stops_station['scheduled_arrival_time']}}</td>
+            <td>{{$stops_station['scheduled_departure_time']}}</td>
+            <td>{{$stops_station['date']}}</td>
+
 
             <td><a class="btn btn-success" href="{{route('user_cancel_trip')}}">Cancel</a></td>
-            <td><a class="btn btn-success" href="{{route('user_checkout')}}">Reschudle</a></td>
+            <td><a class="btn btn-success" href="{{route('user_reschedule_trip')}}">Reschudle</a></td>
 
         </tr>
-        @endforeach
+
 
         <tbody>
     </table>

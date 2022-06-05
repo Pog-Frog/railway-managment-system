@@ -310,18 +310,20 @@ ul li:hover {
                 <div class='line'></div>
         <table class='order-table'>
           <tbody>
+
             <tr>
               <td><img src={{ URL::asset('pics/user/tick.png') }} class='full-width'></img>
               </td>
               <td>
-                <br> <span class='thin'>From:</span>
-                <br> To:<br> <span class='thin'> Date:<br><br></span>
+                <br> <span class='thin'>From:{{$stops_station->source_station}}</span>
+                <br> To: {{$stops_station->destination_station}}
+                <br> arrival_time: {{$stops_station->scheduled_arrival_time}}<br><span class='thin'> Date:{{$stops_station->date}}<br><br></span>
               </td>
 
             </tr>
             <tr>
               <td>
-                <div class='price'>$99.95</div>
+                <div class='price'>Price: {{$stops_station->price}}</div>
               </td>
             </tr>
           </tbody>
@@ -333,11 +335,11 @@ ul li:hover {
         <div class='line'></div>
         <div class='total'>
           <span style='float:left;'>
-            <div class='thin dense'>Total Charge</div>
+            <div class='thin dense'>Total Charge: </div>
 
           </span>
           <span style='float:right; text-align:right;'>
-            <div class='thin dense'>$68.75</div>
+            <div class='thin dense'>{{$stops_station->price}}</div>
 
           </span>
         </div>
@@ -350,7 +352,7 @@ ul li:hover {
                 <div class='dropdown-select'>
                 <ul>
                   <li>Master Card</li>
-                  <li>American Express</li>
+
                   </ul></div>
                 </div>
                </td></tr>
@@ -370,7 +372,8 @@ ul li:hover {
                 </td>
               </tr>
             </table>
-            <a class='pay-btn' href="{{route('generate_ticket')}}">Generate Ticket</a>
+            <a class='pay-btn' href="{{route('generate_ticket', ['stops_id'=>($stops_station->id)])}}">Generate Ticket</a>
+            <a  href="{{route('user_index')}}">Return To Homepage</a>
 
           </div>
 

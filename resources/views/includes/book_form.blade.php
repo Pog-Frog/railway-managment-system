@@ -209,6 +209,7 @@
                     <div class="form-header">
                         <h1>Search For Trip </h1>
                     </div>
+
                     <form action="{{route('show_available_trips')}}" method ="POST" >
                         {{csrf_field()}}
 
@@ -229,8 +230,11 @@
                             </div>
                         </div>
                         <div class="form-btn">
-
+                            @if(session()->has('loginID'))
                             <button class="submit-btn" >View Available Trips</button>
+                            @else
+                            <a href="{{route('user_login_index')}}">Click Here To Log In First</a>
+                            @endif
 
                         </div>
                     </form>

@@ -104,37 +104,37 @@
             </div>
         </div>
 
-        <div class="body-section">
-            <div class="row">
 
-                <div class="col-6">
-                    <p class="sub-heading">From:  </p>
-                    <p class="sub-heading">To: </p>
-                    <p class="sub-heading">Date:  </p>
-                </div>
-            </div>
-        </div>
 
         <div class="body-section">
             <h3 class="heading">Ticket Info</h3>
             <br>
             <table class="table-bordered">
                 <thead>
+
                     <tr>
 
-                        <th class="w-20">Time</th>
-                        <th class="w-20">Class</th>
+
+                        <th class="w-20">Seat Number</th>
+                        <th class="w-20">Date</th>
+                        <th class="w-20">Source </th>
+                        <th class="w-20">Destination</th>
+                        <th class="w-20">Departure Time</th>
                         <th class="w-20">Price</th>
                         <th class="w-20">QR Code</th>
+
                     </tr>
+
+
                 </thead>
                 <tbody>
-                    <tr>
-
-                        <td>10</td>
-                        <td>1</td>
-                        <td>10</td>
-                    </tr>
+                <td class="w-20"> {{$seat->seat_name}}</td>
+                <td class="w-20">{{$booked_ticket->stops_stations->date}}</td>
+                <td class="w-20">{{$booked_ticket->stops_stations->source_station}}</td>
+                <td class="w-20"> {{$booked_ticket->stops_stations->destination_station}}</td>
+                <td class="w-20"> {{$booked_ticket->stops_stations->scheduled_departure_time}}</td>
+                <td class="w-20"> {{$booked_ticket->stops_stations->price}}</td>
+                <td class="w-20"><img src=""></td>
 
                 </tbody>
             </table>

@@ -76,6 +76,7 @@
 
 		<!-- end:header-top -->
 
+
 		<div class="fh5co-hero" style="background-image: url(/pics/user/railway.jpg);">
 
 			<div class="fh5co-overlay"></div>
@@ -84,6 +85,16 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-sm-5 col-md-5">
+							@csrf
+		@if(Session::has('message'))
+            <div class="alert-success">{{Session::get('success')}}
+
+            </div>
+        @else
+            <div class="alert-danger">{{Session::get('fail')}}
+
+            </div>
+        @endif
 
 
 								@include('includes.book_form')
@@ -109,41 +120,36 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-1.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href=""><img src="{{ URL::asset('pics/user/news1.jpg') }}" alt="Egypt Railway news" class="img-responsive">
 							<div class="desc">
 								<span></span>
-								<h3>New York</h3>
-								<span>3 nights + Flight 5*Hotel</span>
-								<span class="price">$1,000</span>
-								<a class="btn btn-primary btn-outline" href="#">Book Now <i class="icon-arrow-right22"></i></a>
+								<h3>Adjusting the times of some trains on some lines. As of 5/14/2022</h3>
+
+								<a class="btn btn-primary btn-outline" href="{{route('news_1')}}">View <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-2.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src="{{ URL::asset('pics/user/news2.jpeg') }}" alt="Egypt Railway news" class="img-responsive">
 							<div class="desc">
 								<span></span>
-								<h3>Philippines</h3>
-								<span>4 nights + Flight 5*Hotel</span>
-								<span class="price">$1,000</span>
-								<a class="btn btn-primary btn-outline" href="#">Book Now <i class="icon-arrow-right22"></i></a>
+								<h3>The Minister of Transport honors the distinguished in the authority</h3>
+
+								<a class="btn btn-primary btn-outline" href="{{route('news_2')}}">View <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-3.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src="{{ URL::asset('pics/user/news3.jpg') }}" alt="Egypt Railway news" class="img-responsive">
 							<div class="desc">
 								<span></span>
-								<h3>Hongkong</h3>
-								<span>2 nights + Flight 4*Hotel</span>
-								<span class="price">$1,000</span>
-								<a class="btn btn-primary btn-outline" href="#">Book Now <i class="icon-arrow-right22"></i></a>
+								<h3>Entering the service tower between Biba and Al-Fashn</h3>
+
+								<a class="btn btn-primary btn-outline" href="{{route('news_3')}}">View <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 text-center animate-box">
-						<p><a class="btn btn-primary btn-outline btn-lg" href="#">See All Offers <i class="icon-arrow-right22"></i></a></p>
-					</div>
+
 				</div>
 			</div>
 		</div>
