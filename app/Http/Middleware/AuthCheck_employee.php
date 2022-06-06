@@ -15,7 +15,7 @@ class AuthCheck_employee
      */
     public function handle($request, Closure $next)
     {
-        if(!session()->has('employeeloginID')){
+        if(!session()->has('employeeID')){
             return redirect('employee/')->with('fail', 'Please login first ');;
         }
         return $next($request);

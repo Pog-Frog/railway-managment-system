@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController; ## Admin Controller
 use App\Http\Controllers\UserController; ## Users Controller
-use App\Http\Controllers\EmployeeController; ##employee Controller
-use App\Http\Controllers\CaptainController; ##captain Controller 
+use App\Http\Controllers\EmployeeController; ##Employee Controller
+use App\Http\Controllers\CaptainController; ##captain Controller
 
 
 /*
@@ -104,15 +104,13 @@ Route::get("user/submit", [UserController::class, 'submit'])->name('submit');
 
 ##EMPLOYEE
 Route::get("employee/", [EmployeeController::class, 'employee_login_index'])->name('employee_login_index')->middleware('alreadyloggedin_employee');
-Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('login_employee')->middleware('alreadyloggedin_employee');
-Route::get("employee/home", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
+Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('employee_login')->middleware('alreadyloggedin_employee');
+Route::get("employee/dashboard", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
 Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout_employee')->middleware('isloggedin_employee');
-Route::get("employee/book_index", [EmployeeController::class, 'employee_book_index'])->name('employee_book_index');
-Route::get("employee/show_available_trips", [EmployeeController::class, 'show_available_trips'])->name('show_available_trips');
-Route::get("employee/checkout", [EmployeeController::class, 'employee_checkout'])->name('employee_checkout');
-Route::get("employee/ticket", [EmployeeController::class, 'generate_ticket_employee'])->name('generate_ticket_employee');
+Route::get("employee/search_trips", [EmployeeController::class, 'search_trips'])->name('search_trips')->middleware('isloggedin_employee');
+Route::get("employee/book_trips/{trip_id}", [EmployeeController::class, 'book_trips'])->name('book_trips')->middleware('isloggedin_employee');
 
-##CAPTAIN   
+##CAPTAIN
 Route::get("captain/", [CaptainController::class, 'captain_login_index'])->name('captain_login_index')->middleware('alreadyloggedin_captain');
 Route::post("captain/login", [CaptainController::class, 'captain_login'])->name('login_captain')->middleware('alreadyloggedin_captain');
 Route::get("captain/home", [CaptainController::class, 'captain_index'])->middleware('isloggedin_captain');
