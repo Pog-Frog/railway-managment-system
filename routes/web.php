@@ -121,3 +121,11 @@ Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name
 Route::get('captainReport', function () {
     return view('captain/captainReport');
 });
+
+##Technician
+Route::get("tech/logout", [TechnicianController::class, 'tech_logout'])->name('logout_tech');
+Route::get("tech/", [TechnicianController::class, 'tech_login_index'])->name('tech_login_index');
+Route::post("tech/login", [TechnicianController::class, 'tech_login'])->name('login_tech');
+Route::get("tech/home", [TechnicianController::class, 'tech_index']);
+Route::get("tech/home", [TechnicianController::class, 'view_Report'])->name('view_Report');
+Route::post("tech/home/open_Report/{report_id}", [TechnicianController::class, 'Report'])->name('Report');

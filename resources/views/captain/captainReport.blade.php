@@ -167,12 +167,12 @@ $technicians = Technician::all();
                                         <input type="text" name ="date" placeholder = "date" >
 
                                     <td class="Tasks">
-                                        {{-- <select  name="train_no">
+                                        <select  name="train_no">
                                             <option value="null">--None--</option>
                                             @foreach($trains as $train)
                                                 <option value="{{$train->id}}">{{$train->train_no}}</option>
                                             @endforeach
-                                        </select> --}}
+                                        </select>
                                     </td>
                                     <td class="Tasks">
                                         <input type="text" name ="report name" placeholder = "report name">
