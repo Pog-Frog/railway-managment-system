@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomAuthController; ## Admin Controller
 use App\Http\Controllers\UserController; ## Users Controller
 use App\Http\Controllers\EmployeeController; ##Employee Controller
 use App\Http\Controllers\CaptainController; ##captain Controller
+use App\Http\Controllers\TechnicianController; ##technican Controller
 
 
 /*
