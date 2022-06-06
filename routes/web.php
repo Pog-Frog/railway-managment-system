@@ -117,7 +117,7 @@ Route::get("captain/", [CaptainController::class, 'captain_login_index'])->name(
 Route::post("captain/login", [CaptainController::class, 'captain_login'])->name('login_captain')->middleware('alreadyloggedin_captain');
 Route::get("captain/home", [CaptainController::class, 'captain_index'])->middleware('isloggedin_captain');
 Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name('logout')->middleware('isloggedin_captain');
-//Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name('logout')->middleware('isloggedin_captain');
+//Route::get("captain/Report", [CaptainController::class, 'captain_Report'])->name('Report');
 Route::get('captainReport', function () {
     return view('captain/captainReport');
 });

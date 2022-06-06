@@ -1,9 +1,18 @@
+<?php
+
+// use App\Train;
+// $trains = Train::all();
+
+use App\Technician;
+$technicians = Technician::all();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Technician tasks</title>
+    <title>Captain tasks</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -105,7 +114,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="workerfirst.html">
+                            <a class="nav-link active" href="">
                                 Active tasks
                             </a>
                         </li>
@@ -114,7 +123,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-flex" href="{{route('logout')}}">
+                            <a class="nav-link d-flex" href="">
                                 <i class="far fa-user mr-2 tm-logout-icon"></i>
                                 <span>Logout</span>
                             </a>
@@ -126,13 +135,13 @@
     </div>
     <div class="container">
         <form>
-        @foreach($report as $reports)
+        
             <div class=" card border-0 shadow my-5">
                 <div class="card-body p-5">
                     <div class="row">
                         <div class="col">
                             
-                            <h2 class="tm-block-title d-inline-block">Technician name:</h2>
+                            <h2 class="tm-block-title d-inline-block">Captain tasks</h2>
                             <br />
                             
                         </div>
@@ -145,47 +154,56 @@
                             <thead>
                                 <tr class="tm-bg-gray">
                                     <th scope="col" class="text-center">Date</th>
-                                    <th scope="col">Captain Name</th>
                                     <th scope="col">Train Number</th>
+                                    <th scope="col">Report Name</th>
+                                    <th scope="col">Technician Name</th>
                                     <th scope="col" class="text-center"></th>
-                                    <th scope="col" class="text-center">status</th>
+                                    <th scope="col" class="text-center"> Write report</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center"> </td>
-                                    <td class="Tasks"> </td>
-                                    <td class="Tasks"></td>
-                                    <td class="open-report"><i class="fas fa-paperclip"></i></td>
+                                    <td class="text-center"> 
+                                        <input type="text" name ="date" placeholder = "date" >
+
+                                    <td class="Tasks">
+                                        {{-- <select  name="train_no">
+                                            <option value="null">--None--</option>
+                                            @foreach($trains as $train)
+                                                <option value="{{$train->id}}">{{$train->train_no}}</option>
+                                            @endforeach
+                                        </select> --}}
+                                    </td>
+                                    <td class="Tasks">
+                                        <input type="text" name ="report name" placeholder = "report name">
+                                    </td>
+                                    <td class="Tasks"> 
+                                        <select  name="technician">
+                                            <option value="null">--None--</option>
+                                            @foreach($technicians as $technician)
+                                                <option value="{{$technician->id}}">{{$technician->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td>
+                                        <div class="form-group">
+                                            <label for="witre report here">Write a report</label>
+                                            <textarea name ="writingReport" class="form-control" id="exampleFormControlTextarea1" rows="3">
+                                            </textarea>
+                                          </div>
+                                    </td>
+                                    
+                        <td>
 
-                        <div class="slidecontainer">
-                            <input type="range" min="0" max="100" value="0" class="slider" id="myRange" &nbsp;>
-                            Value: <span id="demo"></span> %
-                        </div>
-
-                        <script>
-                            var slide1 = document.getElementById("myRange");
-                            var range = document.getElementById("demo");
-                            range.innerHTML = slide1.value;
-
-                            slide1.oninput = function() {
-                            range.innerHTML = this.value;
-                            }
-                        </script>
                                     </td>
 
                                 </tr>
                                 <tr>
-                                  <td class="Tasks">line 2</td>
-                                    <td class="Tasks">Task 2</td>
-                                    <td class="text-center">DD/MM/YYYY</td>
-                                    <td class="open-report"><i class="fas fa-paperclip"></i></td>
+                                    <td class="Tasks"></td>
+                                    <td class="Tasks"> </td>
+                                    <td class="text-center"> </td>
                                     <td>
-                                         <div class="slidecontainer">
-                            <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
-                            Value: <span id="demo">20</span> %
-                        </div>
+                                    
 
                         <script>
                             var slide1 = document.getElementById("myRange");
@@ -199,23 +217,28 @@
                                     </td>
 
                                 </tr>
-                                
                             
-
                             </tbody>
                         </table>
                         <div class="container">
                             <div class="center">
-                        <a href="worker message.html" class="btn btn-primary btn-lg active" id="sublink" role="button" aria-pressed="true" >Submit</a>
-                        <button type="reset" class="btn btn-danger">Reset</button></div></div>
+                        {{-- <a href="worker message.html" class="btn btn-primary btn-lg active" id="sublink" role="button" aria-pressed="true" >Submit</a> --}}
+                        <form method="POST" action="">
+                            @csrf
+                            <div class="col text-center">
+                              
+                                <button class="btn btn-success" type="submit">Submit</button>
+                               
+                            </div>
+                            </form>
                     </div>
                 </div>
             </div>
-            @endforeach
+           
         </form>
        
     </div>
-    <script>
+    <script>  
         $(function () {
             $('.open-report').on('click', function () {
                 window.location.href = "report.pdf";

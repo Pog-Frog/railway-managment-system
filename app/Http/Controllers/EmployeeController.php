@@ -80,8 +80,7 @@ class EmployeeController extends Controller
                 ->get();
             $employee = Booked_tickets::where('employee_id', '=', session()->get("employeeloginID"))->first();
         }
-        return view('employee/view_available_trips');
-        // , compact('query', 'employee'));
+        return view('employee/view_available_trips', compact('query', 'employee'));
     }
 
     public function employee_checkout(Request $request){
