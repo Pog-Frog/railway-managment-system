@@ -59,6 +59,10 @@
             <span class="text-danger">@error('password') {{$message}} @enderror</span>
         </div>
 
+        <div class="form-floating">
+            <a href="{{route('user_register_index')}}">Don't have an account ? register here</a>
+        </div>
+
 
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

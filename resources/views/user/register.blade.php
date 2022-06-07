@@ -67,7 +67,7 @@
         </div>
 
         <div class="form-floating">
-            <input type="name" class="form-control" placeholder="Female/Male"  name="gendre">
+            <input type="name" class="form-control" placeholder="Female/Male"  name="gender">
             <label for="floatingInput">Gender</label>
             <span class="text-danger">@error('gender') {{$message}} @enderror</span>
         </div>
@@ -78,6 +78,10 @@
             <input type="password" class="form-control" placeholder="Password" name="password">
             <label for="floatingPassword">Password</label>
             <span class="text-danger">@error('password') {{$message}} @enderror</span>
+        </div>
+
+        <div class="form-floating">
+            <a href="{{route('user_login_index')}}">already have an account ? login here</a>
         </div>
 
 

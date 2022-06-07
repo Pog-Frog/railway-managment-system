@@ -149,25 +149,20 @@ class UserController extends Controller
             $loginID= session()->get("loginID");
 
         }
-        // return $user;
-        // return "$req->all() $book_id  $req->loginID here";
 
         $nowDate = Carbon::now();
         if ($user) {
             $stops_station = Stops_stations::where('id', '=', $user->stops_station)->first();
-            // return $stops_station;
-            // return "$req->all() $book_id  $req->loginID here";
+
 
             if ($stops_station->date > $nowDate) {
-                // $train = Train::where('train_no', '=', $stops_station->train_no)->first();
-                // $seat = Seat::where('train', '=', $train->id)->
-                // where('seat_availability', '=', 'false')
-                // ->where('id', '=', $user->seat)
-                // ->first();
-                // // Set avaialbity to false after seat resereverd 
-                // $seat->seat_availability='true';
-                // $seat->save();
-
+                $train = Train::where('train_no', '=', $stops_station->train_no)->first();
+                $seat = Seat::where('train', '=', $train->id)->where('seat_availability', '=', 'false')
+                ->where('id','=',$user->seat)
+                ->first();
+                // Set avaialbity to false after seat resereverd 
+                $seat->seat_availability='true';
+                $seat->save();
                 $user->delete();
                 if ($req->has('api')){
                      return response()->json([
@@ -259,44 +254,6 @@ class UserController extends Controller
             return redirect("user/home");
         }
 
-        // if ($req->has('api')){
-        //     $user = Booked_tickets::where('user_id', '=', $req->loginID)->where('id','=',$req->book_id);
-        // }
-        // else{
-        //     $user = Booked_tickets::where('user_id', '=', session()->get("loginID"))->where('id','=',$req->book_id);
-        // }
-        // $nowDate = Carbon::now();
-
-
-        // if ($user) {
-        //     $book = Booked_tickets::where('user_id', '=', $req->loginID)->where('id','=',$req->book_id)->first();
-        //     $stops_station = Stops_stations::where('id', '=', $book->stops_station)->first();
-        //     if ($stops_station->date > $nowDate) {
-        //         $user->delete();
-        //         if ($req->has('api')){
-        //              return response()->json([
-        //             'message' => "1"
-        //              ]);
-        //     }
-
-            //  return view("user/reschedule_trip");
-        //         // return view("user/reschedule_trip", compact('book', 'stops_station'));
-        //     } else {
-        //         if ($req->has('api')){
-        //             return response()->json([
-        //            'message' => "Sorry, You Can Cancel Or Delete A Trip At Leat One Day Before The Departure Date"
-        //             ]);
-        //         }
-        //         return view("user/date");
-        //     }
-        // } else {
-        //     if ($req->has('api')){
-        //         return response()->json([
-        //        'message' => "Ticket doesn't exist"
-        //         ]);
-        //     }
-        //     return redirect("user/home");
-        // }
     }
 
 
@@ -318,26 +275,14 @@ class UserController extends Controller
                 $userId = session()->get('loginID');
             }
 
-            $query = array( );
 
-            $books = Booked_tickets::where('user_id', $userId)->get();
-            foreach ($books as $book) {
-                $stops_station = Stops_stations::where('id', '=', $book->stops_station)->first();
-        
-                    array_push($query, [
-                        'source_station' => $stops_station->source_station,
-                        'destination_station' => $stops_station->destination_station,
-                        'scheduled_arrival_time' => $stops_station->scheduled_arrival_time,
-                        'scheduled_departure_time' => $stops_station->scheduled_departure_time,
-                        'id'=>$stops_station->id,
-                        'train_no' => $stops_station->train_no,
-                        'date' => $stops_station->date,
-                        'price' => $stops_station->price,
-                        'seat' => $book->seat,
-                        'book_id'=>$book->id,
-                ]);
-                
-            }
+            $query = DB::table('stops_stations')
+                ->select('booked_tickets.id AS book_id','source_station','destination_station',
+                'scheduled_arrival_time','scheduled_departure_time','stops_stations.id','train_no','date','price','seat')
+                ->join('booked_tickets', 'stops_stations.id', '=', 'booked_tickets.stops_station')
+                ->where('user_id',$userId)
+                ->get();
+            
 
             if ($req->has('api')){
                 return response()->json([
@@ -345,35 +290,11 @@ class UserController extends Controller
                 ]);
             }
 
-        // if ($req->has('api')){
-        //     $user = Booked_tickets::where('user_id', '=', $req->loginID)->first();
+            $query= json_decode($query, true);
 
-        // }
-        // else{
-        //     $user = Booked_tickets::where('user_id', '=', session()->get("loginID"))->first();
-        // }
-
-        // if ($user) {
-        //     if ($req->has('api')){
-        //         $userId = $req->loginID;
-        //     }
-        //     else{
-        //         $userId = session()->get('loginID');
-        //     }
-
-        //     $book = Booked_tickets::where('user_id', $userId)->first();
-        //     $stops_station = Stops_stations::where('id', '=', $book->stops_station)->first();
-
-        //     if ($req->has('api')){
-        //         return response()->json([
-        //             'stops_station' => $stops_station,
-        //             'book'=>$book,
-        //         ]);
-        //     }
-        // \Log::info(json_encode($request->all()));
+        
         return view("user/view_booked_trips", compact('query'));
 
-            // return view("user/view_booked_trips",  compact('book', 'stops_station'));
         
     }
 
