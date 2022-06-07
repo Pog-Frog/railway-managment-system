@@ -21,7 +21,7 @@ Route::post("admin/register", [CustomAuthController::class, 'admin_register'])->
 Route::get("admin/", [CustomAuthController::class, 'admin_login_index'])->name('admin_login_index')->middleware('alreadyloggedin');
 Route::post("admin/login", [CustomAuthController::class, 'admin_login'])->name('login_admin')->middleware('alreadyloggedin');
 Route::get("admin/dashboard", [CustomAuthController::class, 'admin_index'])->middleware('isloggedin');
-Route::get("admin/logout", [CustomAuthController::class, 'admin_logout'])->name('logout')->middleware('isloggedin');
+Route::get("admin/logout", [CustomAuthController::class, 'admin_logout'])->name('admin_logout')->middleware('isloggedin');
 Route::get("admin/trains", [CustomAuthController::class, 'trains_index'])->name('train_management')->middleware('isloggedin');
 Route::post("admin/trains/insert_train", [CustomAuthController::class, 'insert_train'])->name('insert_train')->middleware('isloggedin');
 Route::get("admin/trains/edit_train_index/{train_id}", [CustomAuthController::class, 'edit_train_index'])->name('edit_train_index')->middleware('isloggedin');
@@ -80,7 +80,7 @@ Route::get("admin/customers/view_booked_tickets", [CustomAuthController::class, 
 Route::get("admin/customers/delete_booked_ticket", [CustomAuthController::class, 'delete_booked_ticket'])->name('delete_booked_ticket')->middleware('isloggedin');
 
 ##USER
-Route::get("user/logout", [UserController::class, 'user_logout'])->name('logout')->middleware('isloggedin_user');
+Route::get("user/logout", [UserController::class, 'user_logout'])->name('user_logout')->middleware('isloggedin_user');
 Route::get("user/", [UserController::class, 'user_login_index'])->name('user_login_index')->middleware('alreadyloggedin_user');
 Route::post("user/login", [UserController::class, 'user_login'])->name('login_user')->middleware('alreadyloggedin_user');
 Route::get("user/register_user", [UserController::class, 'user_register_index'])->name('user_register_index');
@@ -88,10 +88,12 @@ Route::post("user/register", [UserController::class, 'user_register'])->name('re
 Route::get("/", [UserController::class, 'user_index'])->name('user_index');
 Route::get("user/contact", [UserController::class, 'user_contact'])->name('user_contact');
 Route::get("user/book_index", [UserController::class, 'user_book_index'])->name('user_book_index');
-Route::get("user/cancel_trip", [UserController::class, 'user_cancel_trip'])->name('user_cancel_trip');
-Route::get("user/reschedule_trip", [UserController::class, 'user_reschedule_trip'])->name('user_reschedule_trip');
+Route::get("user/cancel_trip/{book_id}", [UserController::class, 'user_cancel_trip'])->name('user_cancel_trip');
+Route::get("user/reschedule_trip/{book_id}", [UserController::class, 'user_reschedule_trip'])->name('user_reschedule_trip');
 Route::post("user/show_available_trips", [UserController::class, 'show_available_trips'])->name('show_available_trips');
 Route::get("user/today_trips", [UserController::class, 'today_trips'])->name('today_trips'); ///
+Route::get("user/get_stations", [UserController::class, 'user_get_stations'])->name('user_get_stations'); ///
+
 Route::get("user/view_booked_trips", [UserController::class, 'user_view_booked_trips'])->name('user_view_booked_trips');
 Route::post("user/checkout/{stops_id}", [UserController::class, 'user_checkout'])->name('user_checkout');
 Route::get("user/ticket{stops_id}", [UserController::class, 'generate_ticket'])->name('generate_ticket');
@@ -104,7 +106,7 @@ Route::get("user/submit", [UserController::class, 'submit'])->name('submit');
 Route::get("employee/", [EmployeeController::class, 'employee_login_index'])->name('employee_login_index')->middleware('alreadyloggedin_employee');
 Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('login_employee')->middleware('alreadyloggedin_employee');
 Route::get("employee/home", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
-Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout_employee')->middleware('isloggedin_employee');
+Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('employee_logout')->middleware('isloggedin_employee');
 Route::get("employee/book_index", [EmployeeController::class, 'employee_book_index'])->name('employee_book_index');
 Route::get("employee/ticket", [EmployeeController::class, 'generate_ticket_employee'])->name('generate_ticket_employee');
 
