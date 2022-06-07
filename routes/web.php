@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController; ## Admin Controller
 use App\Http\Controllers\UserController; ## Users Controller
-use App\Http\Controllers\EmployeeController; ##employee Controller
+use App\Http\Controllers\EmployeeController; ##Employee Controller
+use App\Http\Controllers\CaptainController; ##captain Controller
+use App\Http\Controllers\TechnicianController; ##technican Controller
+
 
 /*
 |--------------------------------------------------------------------------
@@ -104,9 +107,26 @@ Route::get("user/submit", [UserController::class, 'submit'])->name('submit');
 
 ##EMPLOYEE
 Route::get("employee/", [EmployeeController::class, 'employee_login_index'])->name('employee_login_index')->middleware('alreadyloggedin_employee');
-Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('login_employee')->middleware('alreadyloggedin_employee');
-Route::get("employee/home", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
-Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('employee_logout')->middleware('isloggedin_employee');
-Route::get("employee/book_index", [EmployeeController::class, 'employee_book_index'])->name('employee_book_index');
-Route::get("employee/ticket", [EmployeeController::class, 'generate_ticket_employee'])->name('generate_ticket_employee');
+Route::post("employee/login", [EmployeeController::class, 'employee_login'])->name('employee_login')->middleware('alreadyloggedin_employee');
+Route::get("employee/dashboard", [EmployeeController::class, 'employee_index'])->middleware('isloggedin_employee');
+Route::get("employee/logout", [EmployeeController::class, 'employee_logout'])->name('logout_employee')->middleware('isloggedin_employee');
+Route::get("employee/search_trips", [EmployeeController::class, 'search_trips'])->name('search_trips')->middleware('isloggedin_employee');
+Route::get("employee/book_trips/{trip_id}", [EmployeeController::class, 'book_trips'])->name('book_trips')->middleware('isloggedin_employee');
 
+##CAPTAIN
+Route::get("captain/", [CaptainController::class, 'captain_login_index'])->name('captain_login_index')->middleware('alreadyloggedin_captain');
+Route::post("captain/login", [CaptainController::class, 'captain_login'])->name('login_captain')->middleware('alreadyloggedin_captain');
+Route::get("captain/home", [CaptainController::class, 'captain_index'])->middleware('isloggedin_captain');
+Route::get("captain/logout", [CaptainController::class, 'captain_logout'])->name('logout')->middleware('isloggedin_captain');
+//Route::get("captain/Report", [CaptainController::class, 'captain_Report'])->name('Report');
+Route::get('captainReport', function () {
+    return view('captain/captainReport');
+});
+
+##Technician
+Route::get("tech/logout", [TechnicianController::class, 'tech_logout'])->name('logout_tech');
+Route::get("tech/", [TechnicianController::class, 'tech_login_index'])->name('tech_login_index');
+Route::post("tech/login", [TechnicianController::class, 'tech_login'])->name('login_tech');
+Route::get("tech/home", [TechnicianController::class, 'tech_index']);
+Route::get("tech/home", [TechnicianController::class, 'view_Report'])->name('view_Report');
+Route::post("tech/home/open_Report/{report_id}", [TechnicianController::class, 'Report'])->name('Report');

@@ -15,7 +15,7 @@ class Alreadyloggedin_employee
      */
     public function handle($request, Closure $next)
     {
-        if(session()->has('employeeloginID')){
+        if(session()->has('employeeID')){
             return redirect('employee/home');
         }
         return $next($request);

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AuthCheck_employee
+class isloggedin_captain
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class AuthCheck_employee
      */
     public function handle($request, Closure $next)
     {
-        if(!session()->has('employeeID')){
-            return redirect('employee/')->with('fail', 'Please login first ');;
+        if(!session()->has('captainID')){
+            return redirect('captain/')->with('fail', 'Please login first ');;
         }
         return $next($request);
     }

@@ -22,8 +22,9 @@ class CreateCaptainReportsTable extends Migration
             $table->foreign('tech')->references('id')->on('technicians')->onDelete('set null'); ///
             $table->unsignedBigInteger('train')->nullable();
             $table->foreign('train')->references('id')->on('trains')->onDelete('set null');
-            $table->unsignedBigInteger('report')->nullable();
-            $table->foreign('report')->references('id')->on('reports')->onDelete('set null');
+            $table->string('writingReport');
+            $table->string('report name');
+            $table->string('status');
             $table->timestamps();
         });
     }

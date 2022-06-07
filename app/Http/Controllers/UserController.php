@@ -444,6 +444,8 @@ class UserController extends Controller
         $booked_ticket->stops_station = $stops_station->id;
         $booked_ticket->seat = $seat->id;
         $booked_ticket->save();
+        $seat->seat_availability = "false";
+        $seat->save();
         $pdf = PDF::loadView('user/ticket', compact('booked_ticket', 'seat'));
         // if ($request->has('api')){
         //       return response()->download( $pdf);
