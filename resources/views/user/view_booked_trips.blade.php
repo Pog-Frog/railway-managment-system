@@ -4,6 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 	<head>
+       
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Egypt Railway</title>
@@ -217,6 +218,7 @@ h2{
 				<br><br><br>
 
 <div class="table-wrapper">
+    <div id="table-scroll">
     <table class="fl-table">
         <thead>
         <tr>
@@ -226,31 +228,55 @@ h2{
             <th>scheduled_arrival_time</th>
             <th>scheduled_departure_time</th>
             <th>date</th>
+            <th>seat</th>
+            <th>price</th>
+
+            <th>reschedule</th>
             <th>Cancel</th>
-            <th>reschudle</th>
 
 
         </tr>
         </thead>
         <tbody>
 
+
+        @foreach( $query as $row)
+
         <tr>
+            <td>{{$row['source_station']}}</td>
+            <td>{{$row['destination_station']}}</td>
+            <td>{{$row['scheduled_arrival_time']}}</td>
+            <td>{{$row['scheduled_departure_time']}}</td>
+            <td>{{$row['date']}}</td>
+            <td>{{$row['seat']}}</td>
+            <td>{{$row['price']}}</td>
 
-            <td>{{$stops_station->source_station}}</td>
-            <td>{{$stops_station->destination_station}}</td>
-            <td>{{$stops_station['scheduled_arrival_time']}}</td>
-            <td>{{$stops_station['scheduled_departure_time']}}</td>
-            <td>{{$stops_station['date']}}</td>
+            <td>    
+            <form method="GET" role="form" action="{{route('user_reschedule_trip', ['book_id'=>$row['book_id']])}}">
+                @csrf
+                <div class="col text-center">
+                    <button class="btn btn-success" type="submit">Reschedule</button>
+                </div>
+            </form>
+            </td>
 
-
-            <td><a class="btn btn-success" href="{{route('user_cancel_trip')}}">Cancel</a></td>
-            <td><a class="btn btn-success" href="{{route('user_reschedule_trip')}}">Reschudle</a></td>
+            <td>    
+            <form method="GET" role="form" action="{{route('user_cancel_trip', ['book_id'=>$row['book_id']])}}">
+                @csrf
+                <div class="col text-center">
+                    <button class="btn btn-success" type="submit">Cancel</button>
+                </div>
+            </form>
+            </td>
 
         </tr>
+        @endforeach
+
 
 
         <tbody>
     </table>
+</div>
 </div>
 
 

@@ -29,8 +29,6 @@
             }
         }
     </style>
-
-
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{{ url('styles/admin/signin.css') }}" />
 </head>
@@ -61,11 +59,8 @@
             <span class="text-danger">@error('password') {{$message}} @enderror</span>
         </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
+
+
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
 </main>

@@ -91,16 +91,15 @@
 
 
                             <li>
-								<a href="vacation.html" class="fh5co-sub-ddown">Manage Your Trips</a>
+								<a  class="fh5co-sub-ddown">Manage Your Trips</a>
 								<ul class="fh5co-sub-menu">
 								<li><a href="{{route('user_book_index')}}">Book A Trip</a></li>
 									<li><a href="{{route('user_view_booked_trips')}}">View Booked Trips</a></li>
 
-									<li><a href="{{route('user_reschedule_trip')}}">Reschudle A Trip</a></li>
 
 								</ul>
 							</li>
-                            <li><a href="{{route('logout')}}">Logout</a></li>
+                            <li><a href="{{route('user_logout')}}">Logout</a></li>
 
                             @else
 

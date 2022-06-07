@@ -226,6 +226,7 @@ h2{
             <th>scheduled_arrival_time</th>
             <th>scheduled_departure_time</th>
             <th>date</th>
+            <th>price</th>
             <th>Book</th>
 
         </tr>
@@ -240,12 +241,13 @@ h2{
             <td>{{$row['scheduled_arrival_time']}}</td>
             <td>{{$row['scheduled_departure_time']}}</td>
             <td>{{$row['date']}}</td>
+            <td>{{$row['price']}}</td>
             <td>
 
                 <form method="POST" action="{{route('user_checkout', ['stops_id'=>($row['id'])])}}">
                 @csrf
                 <div class="col text-center">
-                    @if(!$user)
+                    @if($user)
                     <button class="btn btn-success" type="submit">Book</button>
                     @endif
                 </div>

@@ -86,7 +86,7 @@
 								<li><a href="{{route('user_contact')}}">Contact Us</a></li>
 								<li><a href="{{route('user_register_index')}}">Register</a></li>
 								<li><a href="{{route('user_login_index')}}">LogIn</a></li>
-								<li><a href="{{route('logout')}}">LogOut</a></li>
+								<li><a href="{{route('user_logout')}}">LogOut</a></li>
 
 							</ul>
 						</div>

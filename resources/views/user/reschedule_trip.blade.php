@@ -227,24 +227,28 @@ h2{
             <th>Date</th>
             <th>scheduled_arrival_time</th>
             <th>scheduled_departure_time</th>
-
-            <th>reschudle</th>
+            <th>Reschedule</th>
 
 
         </tr>
         </thead>
         <tbody>
-
         <tr>
 
-            <td>{{$stops_station->source_station}}</td>
-            <td>{{$stops_station->destination_station}}</td>
-            <td>{{$stops_station->date}}</td>
+            <td>{{$stops_station['source_station']}}</td>
+            <td>{{$stops_station['destination_station']}}</td>
+            <td>{{$stops_station['date']}}</td>
             <td>{{$stops_station['scheduled_arrival_time']}}</td>
             <td>{{$stops_station['scheduled_departure_time']}}</td>
 
-            <td><a class="btn btn-success" href="{{route('user_book_index')}}">Cancel And Search For New Trip</a></td>
-
+            <td>    
+            <form method="GET" role="form" action="{{route('user_cancel_trip', ['book_id'=>$book['id']])}}">
+                @csrf
+                <div class="col text-center">
+                    <button class="btn btn-success" type="submit">Cancel</button>
+                </div>
+            </form>
+            </td>
         </tr>
 
 
